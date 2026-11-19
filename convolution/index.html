@@ -1,0 +1,13 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>卷积与边缘 · Model Mechanics</title>
+<link rel="stylesheet" href="../course.css"><link rel="stylesheet" href="grid.css"><script defer src="../common.js"></script><script defer src="model.js"></script><script defer src="demo.js"></script></head><body><main>
+<nav class="top" id="course-nav" aria-label="课程导航"></nav>
+<h1>同一条边缘，旋转卷积核会怎样？</h1>
+<p class="intro">先看一张左暗右亮的图。保持图像不动，把「左右差分」换成「上下差分」。猜猜看，原来亮起的那两列会移到哪里，还是会直接消失？</p>
+<div class="controls"><label>输入图案 <select id="scene"><option value="vertical">竖直边缘</option><option value="horizontal">水平边缘</option><option value="square">亮色方块</option></select></label>
+<label>3 × 3 卷积核 <select id="kernel"><option value="vertical">左右差分</option><option value="horizontal">上下差分</option></select></label>
+<button id="invert">反转明暗</button><button id="reset">还原当前图案</button></div>
+<div class="duo"><section class="panel"><h2>输入像素</h2><p class="muted">点击像素可翻转 0 和 1。橙色边框圈出所选输出位置用到的九个像素。</p><div id="pixels" class="grid samples" aria-label="可编辑输入像素"></div></section>
+<section class="panel"><h2>边缘响应</h2><p class="muted">点击输出格移动窗口。绿色为正，棕色为负，数字表示响应强度与方向。</p><div id="responses" class="grid samples" aria-label="可选择的输出位置"></div></section></div>
+<section class="panel working"><h2>所选位置的九次乘法</h2><p class="muted">格内依次显示像素值、核权重与乘积。九项之和写入右图的所选格。</p><div id="products" class="grid products"></div><p class="readout" id="sum" aria-live="polite"></p></section>
+<details><summary>为什么整张图都用同一个核？</summary><p>共享权重让同一种局部变化在不同位置产生同样的响应。左右差分核把右列的加权亮度减去左列的加权亮度；区域均匀时，两侧刚好抵消。反转明暗会让这个零和核的响应变号。</p><p>这里采用深度学习卷积层常用的互相关运算，核按原方向滑动。步幅为 1，边界不填充，所以 7 × 7 输入对应 5 × 5 输出。本课手动指定两个 Sobel 核，训练中的卷积层可以学习核权重。</p><a href="https://d2l.ai/chapter_convolutional-neural-networks/conv-layer.html">延伸阅读 · 图像卷积与互相关</a></details>
+<nav class="actions"><a href="../gradient/index.html">返回反向传播</a><a class="primary" href="../index.html">返回课程目录</a></nav></main></body></html>

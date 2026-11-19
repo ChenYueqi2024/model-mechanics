@@ -1,0 +1,13 @@
+.samples { max-width:330px; width:100%; gap:1px; }
+.samples button { position:relative; border:1px solid #bed0ca; border-radius:0; padding:0; aspect-ratio:1; font:600 16px/1 Consolas,monospace; }
+.samples button:focus-visible {z-index:1;}
+.samples button[aria-pressed=true].source-bit { background:#f4faf4; color:#223831; }
+.samples .source-bit { background:#2e433e; color:white; }
+.samples .margin-top { border-top:3px solid #cf6c21; }
+.samples .margin-bottom { border-bottom:3px solid #cf6c21; }
+.samples .margin-left { border-left:3px solid #cf6c21; }
+.samples .margin-right { border-right:3px solid #cf6c21; }
+.samples .chosen { outline:3px solid #233642; outline-offset:-3px; }
+.working { margin-top:16px; }
+.products { grid-template-columns:repeat(3,minmax(0,1fr)); max-width:450px; gap:3px; }
+.products span { text-align:center; padding:6px 0; font:clamp(11px,3vw,16px)/1.5 Consolas,monospace; background:#e8eeea; }

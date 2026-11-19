@@ -1,0 +1,22 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>反向传播 · Model Mechanics</title>
+<link rel="stylesheet" href="../course.css"><script defer src="../common.js"></script><script defer src="model.js"></script><script defer src="demo.js"></script></head><body><main>
+<nav class="top" id="course-nav" aria-label="课程导航"></nav>
+<h1>梯度算对了，为什么越学越差？</h1>
+<p class="intro">这个模型只有一个可训练的权重 w。输入 2，目标输出 3。先用学习率 0.10 训练一步，再把学习率换成 0.25，猜猜同一起点的第一次更新会让损失变大还是变小。</p>
+<div class="controls"><label>学习率 η <select id="rate"><option value="0.1">0.10</option><option value="0.2">0.20</option><option value="0.25">0.25</option></select></label>
+<button id="step">训练一步</button><button id="finish">走到第 12 步</button><button id="reset">回到起点</button><output id="count" aria-live="polite"></output></div>
+<div class="duo"><section class="panel"><h2>沿计算图往返一次</h2><p class="muted">从上向下算出损失，再从下向上逐层乘以局部导数。</p>
+<table class="matrix numeric"><thead><tr><th>节点</th><th>前向值</th><th>损失对该节点的导数</th></tr></thead>
+<tbody><tr><th>w</th><td id="weight"></td><td id="grad-w"></td></tr><tr><th>h = 2w</th><td id="hidden"></td><td id="grad-h"></td></tr><tr><th>ŷ = 1.5h</th><td id="prediction"></td><td id="error"></td></tr><tr><th>L = (ŷ − 3)² / 2</th><td id="loss"></td><td>1</td></tr></tbody></table>
+<p id="chain" class="readout"></p><p id="update"></p></section>
+<section class="panel"><h2>预测离目标还有多远？</h2><p class="muted">实线连接各次更新后的预测，虚线是目标值 3。切换学习率会从相同起点重算到当前步数。</p>
+<svg viewBox="0 0 360 210" role="img" aria-labelledby="trace-title" style="width:100%;display:block">
+<title id="trace-title">训练步数与预测值</title>
+<path d="M48 18 V174 H340" fill="none" stroke="#869c95"/>
+<line x1="48" x2="340" id="goal-line" stroke="#9c4b18" stroke-dasharray="5 4"/>
+<polyline id="curve" fill="none" stroke="#087569" stroke-width="3"/>
+<circle id="latest" r="4" fill="#143d38"/>
+<g font-size="12" fill="#35514f"><text x="42" id="high" y="22" text-anchor="end"></text><text x="42" id="low" y="177" text-anchor="end"></text><text x="48" y="192">0</text><text x="340" y="192" text-anchor="end">12 步</text></g>
+</svg><p class="readout" id="change" aria-live="polite"></p></section></div>
+<details><summary>怎样预判哪种学习率会越走越远？</summary><p>本例的损失为 4.5(w − 1)²，最优权重是 1。每步更新都会把「权重与 1 的差」乘以 (1 − 9η)。试试 0.20 和 0.25，两者都会越过最优点，但只有后者会让差距的绝对值增加。</p><a href="https://d2l.ai/chapter_multilayer-perceptrons/backprop.html">延伸阅读 · 计算图与反向传播</a></details>
+<nav class="actions"><a href="../rl/index.html">返回 Q-learning</a><a class="primary" href="../convolution/index.html">继续学卷积</a></nav></main></body></html>
