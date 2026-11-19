@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Patch Lens · 图像分块实验</title>
+  <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="../course.css">
+  <script defer src="../common.js"></script>
+  <script defer src="model.js"></script><script defer src="demo.js"></script>
+</head>
+<body>
+  <main>
+    <nav class="top" id="course-nav" aria-label="课程导航"></nav>
+    <h1>哪一块和它最像？</h1>
+    <p class="intro">每行颜色相同，每列纹理相同。选一块图案，再换一组投影权重，看最相似的图块移到了哪里。</p>
+    <div class="controls">
+      <fieldset><legend>投影权重</legend><label><input type="radio" name="mode" value="color" checked>读颜色</label><label><input type="radio" name="mode" value="texture">读纹理</label></fieldset>
+      <label class="size">Patch 边长 <select id="size"><option value="16">16 像素</option><option value="8">8 像素</option></select></label>
+    </div>
+    <div class="panels">
+      <section><h2>输入图像</h2><p>点击图块，选择比较基准</p><div class="board input" id="input"></div></section>
+      <section><h2>余弦相似度</h2><p>边框标出基准，★ 标出并列最近邻</p><div class="board" id="heat"></div></section>
+      <section class="detail"><h2>向量读数</h2><p id="location"></p><dl id="vector"></dl><p id="result" aria-live="polite"></p></section>
+    </div>
+    <details open><summary>这四个数是怎么算的？</summary><p id="shape"></p><p id="explain"></p><p>这里的权重由人设计，用来单独检验颜色和纹理。ViT 在训练中学习投影权重，随后加入位置信息。</p></details>
+    <footer class="actions"><a href="https://arxiv.org/abs/2010.11929">Vision Transformer 原论文</a><a id="next-lesson" class="primary" href="../attention/index.html">带着所选图块进入 Attention</a></footer>
+  </main>
+</body></html>

@@ -1,0 +1,17 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Attention · Model Mechanics</title><link rel="stylesheet" href="../course.css">
+<script defer src="../common.js"></script><script defer src="../patch/model.js"></script><script defer src="model.js"></script><script defer src="demo.js"></script></head><body><main>
+<nav class="top" id="course-nav" aria-label="课程导航"></nav>
+<h1>注意力不变，输出会变吗？</h1><p class="intro">先保持查询图块不动。在热图里挑一个来源，把它的 V 第一维增加 1。猜一猜，输出第一维会增加 1，还是只增加一部分？</p>
+<div class="controls"><label>查询图块 Q <select id="query"></select></label><span class="muted" id="input-info"></span></div>
+<div class="duo"><section class="panel"><h2>这个 Q 给每个图块多少权重？</h2>
+<p class="muted">每格对应原图的同一位置，显示这一行 softmax 的百分比。点击一格选中它的 V。</p>
+<div id="heat" class="heat grid" aria-label="来源图块的注意力权重"></div><p id="selected-weight"></p></section>
+<section class="panel"><h2>改变一个 V 分量</h2>
+<p><label for="delta">来源图块第一维的增量 ΔV</label> <output id="delta-read" for="delta"></output></p>
+<input id="delta" type="range" min="-2" max="2" step="0.25" value="0"><button id="plus">设为 +1</button>
+<p class="muted" id="source-value"></p>
+<table class="matrix numeric"><caption>当前查询图块的输出向量</caption><thead><tr><th>维度</th><th>原始</th><th>改动后</th></tr></thead><tbody id="rows"></tbody></table>
+<p class="readout" id="result" aria-live="polite"></p></section></div>
+<details><summary>怎样从输入算到输出？</summary><p>本课使用单头自注意力。每个四维图块向量 x 生成 Q = 6x、K = 6x、V = x。点积 Q·K 除以 √4 后，对所有来源做 softmax，得到总和为 1 的权重。输出是各来源 V 的加权和。</p><p>滑块在投影之后修改一处 V，Q 和 K 保持固定。因此热图保持原值，而输出的改变量等于该来源的权重乘 ΔV。表格显示四舍五入的值。</p><a href="https://arxiv.org/abs/1706.03762">Attention Is All You Need</a></details>
+<nav class="actions" aria-label="课间导航"><a href="../patch/index.html">返回 Patch Lens</a><a class="primary" href="../bpe/index.html">继续学 BPE 分词</a></nav>
+</main></body></html>

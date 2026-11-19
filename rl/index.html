@@ -1,0 +1,15 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Q-learning · Model Mechanics</title><link rel="stylesheet" href="../course.css"><script defer src="../common.js"></script><script defer src="model.js"></script><script defer src="demo.js"></script></head><body><main>
+<nav class="top" id="course-nav" aria-label="课程导航"></nav>
+<h1>绕远去领奖励划算吗？</h1><p class="intro">近处终点奖励 +2，远处终点奖励 +8。先猜每步花费 0.1 时会去哪，再看训练终局。保持同一张地图和随机种子，把花费提高到 1.5 重做实验。</p>
+<div class="controls"><label>每步花费 <select id="cost"><option>0.1</option><option>1.5</option></select></label>
+<label>回放进度 <input id="timeline" type="range" min="0" value="0" step="1"></label><output id="progress" for="timeline"></output></div>
+<div class="stepper"><button id="back">上一步</button><button id="step">走一步</button><button id="episode">到回合末</button><button id="end">看训练终局</button><button id="reset">回到起点</button></div>
+<div class="duo"><section class="panel"><h2>当前学到的路线</h2><p class="muted">箭头指向当前 Q 值最大的动作。浅绿色沿途标出从起点依策略会走的路线，橙框标出本次采样落点。</p>
+<div id="maze" class="maze grid" aria-label="策略地图"></div><p id="route" aria-live="polite"></p></section>
+<section class="panel"><h2>这一步如何更新 Q？</h2><p id="transition"></p><p id="reward" class="muted"></p>
+<p class="readout" id="update"></p><table class="matrix numeric"><caption id="cell-title"></caption><thead><tr><th>可行动作</th><th>更新后的 Q 值</th></tr></thead><tbody id="qtable"></tbody></table></section></div>
+<details><summary>怎样读懂探索、奖励和回放？</summary><p>所有 Q 从 0 开始。前 100 回合均匀随机探索，之后每一步有 25% 概率随机探索，其余时间选 Q 最大的动作。训练时平手随机选择；展示策略时按上、右、下、左依次打破平手，所以早期箭头可能形成循环。</p>
+<p>每步先扣花费，进入终点的同一步再加奖励。学习率为 0.5，折扣因子为 0.95。终点之后的价值按 0 计。每回合从同一起点出发，最多采样 80 步。回放使用固定种子 42，共 400 回合。切换花费时对齐回合与步数，若原来位于回合末则对齐回合末。</p>
+<a href="https://doi.org/10.1007/BF00992698">Watkins 与 Dayan 的 Q-learning 论文</a></details>
+<nav class="actions"><a href="../bpe/index.html">返回 BPE 分词</a><a class="primary" href="../index.html">返回课程目录</a></nav>
+</main></body></html>
