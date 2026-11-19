@@ -1,7 +1,7 @@
 <!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BPE 分词 · Model Mechanics</title><link rel="stylesheet" href="../course.css"><script defer src="../common.js"></script><script defer src="model.js"></script><script defer src="demo.js"></script></head><body><main>
 <nav class="top" id="course-nav" aria-label="课程导航"></nav>
-<h1>谁决定一个词从哪里切开？</h1><p class="intro">输入词保持 playing。先猜两份语料分别会保留哪一段，再走完五轮合并，换一份语料比较。</p>
-<div class="controls"><label>训练语料 <select id="corpus"><option value="play">反复出现 play</option><option value="ing">反复出现 ing</option></select></label><label>试分文本 <input id="sample" type="text" value="playing" maxlength="64" autocomplete="off"></label></div>
+<h1>谁决定一个词从哪里切开？</h1><p class="intro">用图文检索选出的描述，或输入 playing。保持文本不动，走完五轮合并，再换训练语料，观察哪些字符被合在了一起。</p>
+<div class="controls"><label>训练语料 <select id="corpus"><option value="play">反复出现 play</option><option value="ing">反复出现 ing</option><option value="captions">四条图像描述</option></select></label><label>试分文本 <input id="sample" type="text" value="playing" maxlength="64" autocomplete="off"></label></div>
 <div class="duo"><section class="panel"><h2>在小语料上训练</h2><p class="muted">每个空格划开一个词。同一对符号出现越多，越早得到合并机会。</p>
 <p class="readout" id="training"></p><div class="stepper"><button id="prev">上一步</button><button id="next">合并一步</button><button id="finish">走到最后</button></div>
 <h3 id="round"></h3><table class="matrix"><caption>下一轮候选 · 最常见的三对</caption><thead><tr><th>相邻符号</th><th>语料中出现次数</th></tr></thead><tbody id="candidates"></tbody></table>
@@ -10,5 +10,5 @@
 <div id="chips" class="chips" aria-label="当前分词"></div><p id="count" aria-live="polite"></p>
 <h3>已学规则</h3><ol id="rules"></ol><p id="empty">当前从单个字符开始。</p></section></div>
 <details><summary>为什么同一个词有两种切法？</summary><p>训练阶段统计的是语料中相邻符号的频次。编码阶段从字符出发，按学到的规则顺序尝试合并。某条规则可以在输入中没有任何匹配。</p><p>这里采用字符级 BPE，每份语料最多学习五条规则；真实分词器还可能使用字节、特殊符号和其他预处理。</p><a href="https://aclanthology.org/P16-1162/">子词单元与 BPE 原论文</a></details>
-<nav class="actions"><a href="../attention/index.html">返回 Attention</a><a class="primary" href="../rl/index.html">继续学 Q-learning</a></nav>
+<nav class="actions"><a href="../retrieval/index.html">返回图文检索</a><a id="to-causal" class="primary" href="../causal/index.html">用这些 token 测试因果掩码</a></nav>
 </main></body></html>

@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>图文检索 · Model Mechanics</title><link rel="stylesheet" href="../course.css">
+<script defer src="../common.js"></script><script defer src="../convolution/model.js"></script><script defer src="model.js"></script><script defer src="demo.js"></script></head>
+<body><main><nav class="top" id="course-nav" aria-label="课程导航"></nav>
+<h1>像素怎么和一句话配对？</h1><p class="intro">沿用上一课的两个卷积核，读出图像亮度变化的方向。让四条英文描述竞争这张图，训练几步，再故意交换训练集里的左右描述，看模型会相信像素还是标签。</p>
+<div class="controls"><label>查询图像 <select id="image-choice"></select></label><label>训练配对 <select id="pairing"><option value="clean">方向正确</option><option value="swapped">互换左右描述</option></select></label><button id="step">训练一步</button><button id="train">训练到 30 步</button><button id="reset">回到零步</button></div>
+<div class="duo"><section class="panel"><h2>图像编码器</h2><div id="pixels" class="binary-picture" role="img" aria-label="7 行 7 列查询图像"></div><p id="vector" class="readout"></p><p class="muted">先分别汇总左右、上下差分响应，再将向量归一化。左右对称、上下对称的图案可能得到零向量。</p></section>
+<section class="panel"><h2>哪条描述最匹配？</h2><table class="matrix"><thead><tr><th>备选描述</th><th>词向量</th><th>匹配概率</th></tr></thead><tbody id="matches"></tbody></table><p id="loss" class="readout" aria-live="polite"></p><label>送去下一课的描述 <select id="caption"></select></label><p class="muted" id="verdict"></p></section></div>
+<details><summary>模型从哪些配对中学习？</summary><p>训练集有四张单边缘图，分别是右亮、左亮、下亮、上亮。bright 共用零向量，四个方向词各学一个二维向量。每张图与四个词向量做点积，经 softmax 后对正确描述计算交叉熵，再用整批梯度更新词向量。更换查询图像只影响检索，更换配对才会改变训练。</p><p>这个小实验借用了图文对比学习的思想，只训练文字一侧，使用图到文的单向损失。下一课把实际选中的英文描述拆成子词。</p><a href="https://proceedings.mlr.press/v139/radford21a.html">CLIP 原论文</a></details>
+<nav class="actions" aria-label="课间导航"><a href="../convolution/index.html">返回卷积与边缘</a><a class="primary" id="next-lesson" href="../bpe/index.html">把这条描述送进 BPE</a></nav>
+</main></body></html>

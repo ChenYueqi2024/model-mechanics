@@ -1,6 +1,11 @@
 Course.mount('bpe');
 const { id } = Course;
 let cursor = 0;
+const params = new URLSearchParams(location.search);
+if (params.has('caption')) {
+  id('sample').value = params.get('caption').slice(0,64);
+  id('corpus').value = 'captions';
+}
 function render() {
   const corpus = BPE.corpora[id('corpus').value];
   const rounds = BPE.train(corpus);
@@ -30,6 +35,9 @@ function render() {
   }));
   id('empty').hidden = cursor > 0;
   const result = BPE.encode(id('sample').value, learned);
+  id('to-causal').href = '../causal/index.html?' + new URLSearchParams({
+    sample: id('sample').value, corpus: id('corpus').value, rounds: cursor
+  });
   id('chips').replaceChildren(...result.map(token => {
     const chip = document.createElement('span');
     chip.textContent = token === ' ' ? '␣' : token;

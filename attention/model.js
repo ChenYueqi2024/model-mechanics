@@ -1,9 +1,9 @@
 const Attention = (() => {
-  function attend(tokens, query, source, delta) {
-    const dimension = tokens[0].length;
+  function attend(tokens, query, source, delta, keyInputs = tokens) {
+    const dimension = keyInputs[0].length;
     // Shared diagonal projections Wq = Wk = 6I, Wv = I.
-    const logits = tokens.map(key =>
-      36 * key.reduce((sum, k, i) => sum + k * tokens[query][i], 0) / Math.sqrt(dimension));
+    const logits = keyInputs.map(key =>
+      36 * key.reduce((sum, k, i) => sum + k * keyInputs[query][i], 0) / Math.sqrt(dimension));
     const max = Math.max(...logits);
     const exp = logits.map(score => Math.exp(score - max));
     const total = exp.reduce((sum, v) => sum + v, 0);

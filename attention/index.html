@@ -13,5 +13,5 @@
 <table class="matrix numeric"><caption>当前查询图块的输出向量</caption><thead><tr><th>维度</th><th>原始</th><th>改动后</th></tr></thead><tbody id="rows"></tbody></table>
 <p class="readout" id="result" aria-live="polite"></p></section></div>
 <details><summary>怎样从输入算到输出？</summary><p>本课使用单头自注意力。每个四维图块向量 x 生成 Q = 6x、K = 6x、V = x。点积 Q·K 除以 √4 后，对所有来源做 softmax，得到总和为 1 的权重。输出是各来源 V 的加权和。</p><p>滑块在投影之后修改一处 V，Q 和 K 保持固定。因此热图保持原值，而输出的改变量等于该来源的权重乘 ΔV。表格显示四舍五入的值。</p><a href="https://arxiv.org/abs/1706.03762">Attention Is All You Need</a></details>
-<nav class="actions" aria-label="课间导航"><a href="../patch/index.html">返回 Patch Lens</a><a class="primary" href="../bpe/index.html">继续学 BPE 分词</a></nav>
+<nav class="actions" aria-label="课间导航"><a href="../patch/index.html">返回 Patch Lens</a><a id="to-position" class="primary" href="../position/index.html">把这个图块换个位置</a></nav>
 </main></body></html>

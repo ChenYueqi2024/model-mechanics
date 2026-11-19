@@ -1,7 +1,8 @@
 const BPE = (() => {
   const corpora = {
     play: 'play play play plays player replay playful',
-    ing: 'sing ring wing king bring singing ringing'
+    ing: 'sing ring wing king bring singing ringing',
+    captions: 'bright right bright left bright bottom bright top'
   };
 
   function pairs(words) {

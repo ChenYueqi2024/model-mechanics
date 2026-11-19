@@ -11,5 +11,5 @@
 <details><summary>怎样读懂探索、奖励和回放？</summary><p>所有 Q 从 0 开始。前 100 回合均匀随机探索，之后每一步有 25% 概率随机探索，其余时间选 Q 最大的动作。训练时平手随机选择；展示策略时按上、右、下、左依次打破平手，所以早期箭头可能形成循环。</p>
 <p>每步先扣花费，进入终点的同一步再加奖励。学习率为 0.5，折扣因子为 0.95。终点之后的价值按 0 计。每回合从同一起点出发，最多采样 80 步。回放使用固定种子 42，共 400 回合。切换花费时对齐回合与步数，若原来位于回合末则对齐回合末。</p>
 <a href="https://doi.org/10.1007/BF00992698">Watkins 与 Dayan 的 Q-learning 论文</a></details>
-<nav class="actions"><a href="../bpe/index.html">返回 BPE 分词</a><a class="primary" href="../gradient/index.html">继续学反向传播</a></nav>
+<nav class="actions"><a href="../generalization/index.html">返回泛化实验</a><a class="primary" href="../index.html">返回课程目录</a></nav>
 </main></body></html>

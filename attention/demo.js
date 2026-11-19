@@ -23,6 +23,7 @@ tokens.forEach((_, i) => {
 id('query').value = query;
 function draw() {
   const delta = Number(id('delta').value);
+  id('to-position').href = '../position/index.html?' + new URLSearchParams({ size, mode, query, source, delta });
   const { weights, base, output } = Attention.attend(tokens, query, source, delta);
   const max = Math.max(...weights);
   weights.forEach((w, i) => {

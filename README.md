@@ -1,17 +1,40 @@
 # Model Mechanics · 机器学习交互实验
 
-六个能从头算起的中文浏览器实验。每一课先做预测，再改变一个变量，最后用中间读数核对预测。[进入互动教程](https://chenyueqi2024.github.io/model-mechanics/)
+从一个图块开始，沿着注意力、卷积和图文检索走进语言模型，再动手验证学习与泛化。每课都可以单独打开。[进入互动教程](https://chenyueqi2024.github.io/model-mechanics/)
 
-| 顺序 | 动手实验 | 可以核对的结果 |
-| --- | --- | --- |
-| 1 | [Patch Lens](https://chenyueqi2024.github.io/model-mechanics/patch/) · 改图像投影 | 同一块图的最近邻从同一行移到同一列 |
-| 2 | [Attention](https://chenyueqi2024.github.io/model-mechanics/attention/) · 只改一个 V 分量 | 热图固定，输出第一维的增量等于来源权重乘以 ΔV |
-| 3 | [BPE 分词](https://chenyueqi2024.github.io/model-mechanics/bpe/) · 换训练语料 | 五轮之后，playing 分别保留 play 或 ing |
-| 4 | [Q-learning](https://chenyueqi2024.github.io/model-mechanics/rl/) · 改每步花费 | 固定种子训练 400 回合后，智能体分别选择远处的 +8 或近处的 +2 |
-| 5 | [反向传播](https://chenyueqi2024.github.io/model-mechanics/gradient/) · 改学习率 | 从相同权重出发，比较单调收敛、来回收敛和来回发散三种轨迹 |
-| 6 | [卷积与边缘](https://chenyueqi2024.github.io/model-mechanics/convolution/) · 旋转 Sobel 核或编辑像素 | 逐格核对响应的正负与方向，再把结果拆成九个乘积 |
+## 计算机视觉
 
-第一课的「带着所选图块进入 Attention」会传递真实的图块尺寸、位置和投影方式。Attention 使用一组四维单头投影，BPE 从字符开始按词内频次合并，Q-learning 使用带两个终点的确定性网格。每个实验可回到初始输入重做。
+沿着同一张图，从像素分块、全图注意力，走到空间坐标和局部边缘。
+
+- [Patch Lens](https://chenyueqi2024.github.io/model-mechanics/patch/) · 在同一张图上切换颜色和纹理投影，寻找一个图块的最近邻。
+- [Self-attention](https://chenyueqi2024.github.io/model-mechanics/attention/) · 沿用所选图块，只改一个 V 分量，核对它对输出的贡献。
+- [二维位置编码](https://chenyueqi2024.github.io/model-mechanics/position/) · 同一个查询跟着图块移动，比较有无坐标时的注意力输出。
+- [卷积与边缘](https://chenyueqi2024.github.io/model-mechanics/convolution/) · 改从局部窗口读位置，逐格编辑像素、核对九次乘法。
+
+## 从图像走到语言
+
+用上一课编辑的图寻找描述，把选中的那句话带进分词器，再看每个 token 能读到哪些信息。
+
+- [图文检索](https://chenyueqi2024.github.io/model-mechanics/retrieval/) · 让四条描述竞争同一张图，错配训练标签，观察排名怎样改变。
+- [BPE 分词](https://chenyueqi2024.github.io/model-mechanics/bpe/) · 保留选中的描述，逐步学习合并规则，比较不同语料学到的分词。
+- [因果掩码](https://chenyueqi2024.github.io/model-mechanics/causal/) · 沿用上一课的分词结果，篡改未来 token，检查当前位置的输出。
+
+## 模型怎样学习
+
+从一次权重更新走到整组样本，分别检验模型怎样降低误差、怎样应对新题。
+
+- [反向传播](https://chenyueqi2024.github.io/model-mechanics/gradient/) · 沿计算图追踪误差，比较三个学习率带来的训练轨迹。
+- [泛化与过拟合](https://chenyueqi2024.github.io/model-mechanics/generalization/) · 改变邻居数，核对一张错标签怎样影响训练成绩和留出成绩。
+
+## 选修 · 强化学习
+
+把带标签的样本换成一次次行动，在迷宫里观察奖励怎样影响决策。
+
+- [Q-learning](https://chenyueqi2024.github.io/model-mechanics/rl/) · 给每一步标一个价格，看智能体学会选择哪个终点。
+
+## 贯穿课程的实验数据
+
+Patch Lens 传递图块大小、投影方式和查询位置。Self-attention 把查询、来源和 V 的改变量传给位置实验。该实验从跟踪图块的中心取出 7 × 7 像素，按局部平均亮度二值化后送入卷积。卷积页再把编辑后的 49 个像素交给检索页。检索页把所选描述送入 BPE，BPE 把文本、语料和已执行的合并轮数送入因果掩码课。所有计算均在浏览器内完成。
 
 ## 本地运行
 
@@ -29,3 +52,4 @@ node --test
 - 缩放点积注意力。[Attention Is All You Need](https://arxiv.org/abs/1706.03762)
 - 子词合并。[Neural Machine Translation of Rare Words with Subword Units](https://aclanthology.org/P16-1162/)
 - 表格型强化学习。[Q-learning](https://doi.org/10.1007/BF00992698)
+- 图文对比学习。[CLIP](https://proceedings.mlr.press/v139/radford21a.html)
