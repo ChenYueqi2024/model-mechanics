@@ -28,7 +28,7 @@ function render() {
     if (i === query) chip.className = 'query-chip';
     return chip;
   }));
-  if (!n) { id('change').textContent = '输入两个或更多 token 后，可以比较未来位置的影响。'; return; }
+  if (!n) { id('next-lesson').href = '../sampling/index.html'; id('change').textContent = '输入两个或更多 token 后，可以比较未来位置的影响。'; return; }
   id('map').style.setProperty('--cols',n);
   for (let r=0; r<n; r++) for (let c=0; c<n; c++) {
     const cell = document.createElement('span');
@@ -40,6 +40,7 @@ function render() {
   const before = CausalLab.read(values,query,masked);
   if (edited) values[query+1] = -1;
   const after = CausalLab.read(values,query,masked);
+  id('next-lesson').href = '../sampling/index.html?' + new URLSearchParams({h:after.output});
   tokens.forEach((t,i)=>{
     const row = id('weights').insertRow();
     [label(t)+(edited && i===query+1?' → ★':''),before.weights[i],after.weights[i]].forEach((v,j)=>{

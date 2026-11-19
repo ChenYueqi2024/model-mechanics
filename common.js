@@ -1,8 +1,8 @@
 const Course = (() => {
   const sections = [
-    ['计算机视觉', [['patch', 'Patch Lens'], ['attention', 'Self-attention'], ['position', '二维位置编码'], ['convolution', '卷积与边缘']]],
-    ['从图像走到语言', [['retrieval', '图文检索'], ['bpe', 'BPE 分词'], ['causal', '因果掩码']]],
-    ['模型怎样学习', [['gradient', '反向传播'], ['generalization', '泛化与过拟合']]],
+    ['计算机视觉', [['patch', 'Patch Lens'], ['attention', 'Self-attention'], ['position', '二维位置编码'], ['convolution', '卷积与边缘'], ['pooling', '池化与平移']]],
+    ['从图像走到语言', [['retrieval', '图文检索'], ['bpe', 'BPE 分词'], ['causal', '因果掩码'], ['sampling', '温度与采样']]],
+    ['模型怎样学习', [['gradient', '反向传播'], ['minibatch', '小批量梯度'], ['generalization', '泛化与过拟合']]],
     ['选修 · 强化学习', [['rl', 'Q-learning']]]
   ];
   const id = name => document.getElementById(name);

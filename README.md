@@ -10,6 +10,7 @@
 - [Self-attention](https://chenyueqi2024.github.io/model-mechanics/attention/) · 沿用所选图块，只改一个 V 分量，核对它对输出的贡献。
 - [二维位置编码](https://chenyueqi2024.github.io/model-mechanics/position/) · 同一个查询跟着图块移动，比较有无坐标时的注意力输出。
 - [卷积与边缘](https://chenyueqi2024.github.io/model-mechanics/convolution/) · 改从局部窗口读位置，逐格编辑像素、核对九次乘法。
+- [池化与平移](https://chenyueqi2024.github.io/model-mechanics/pooling/) · 移动上一课的图像，比较最大池化与平均池化保留的局部信息。
 
 ## 从图像走到语言
 
@@ -18,12 +19,14 @@
 - [图文检索](https://chenyueqi2024.github.io/model-mechanics/retrieval/) · 让四条描述竞争同一张图，错配训练标签，观察排名怎样改变。
 - [BPE 分词](https://chenyueqi2024.github.io/model-mechanics/bpe/) · 保留选中的描述，逐步学习合并规则，比较不同语料学到的分词。
 - [因果掩码](https://chenyueqi2024.github.io/model-mechanics/causal/) · 沿用上一课的分词结果，篡改未来 token，检查当前位置的输出。
+- [温度与采样](https://chenyueqi2024.github.io/model-mechanics/sampling/) · 沿用查询输出，固定随机数，比较温度和 top-p 怎样改变抽样频率。
 
 ## 模型怎样学习
 
 从一次权重更新走到整组样本，分别检验模型怎样降低误差、怎样应对新题。
 
 - [反向传播](https://chenyueqi2024.github.io/model-mechanics/gradient/) · 沿计算图追踪误差，比较三个学习率带来的训练轨迹。
+- [小批量梯度](https://chenyueqi2024.github.io/model-mechanics/minibatch/) · 从上一课的权重起步，改变批量和顺序，比较每次更新与整组损失。
 - [泛化与过拟合](https://chenyueqi2024.github.io/model-mechanics/generalization/) · 改变邻居数，核对一张错标签怎样影响训练成绩和留出成绩。
 
 ## 选修 · 强化学习
@@ -34,7 +37,7 @@
 
 ## 贯穿课程的实验数据
 
-Patch Lens 传递图块大小、投影方式和查询位置。Self-attention 把查询、来源和 V 的改变量传给位置实验。该实验从跟踪图块的中心取出 7 × 7 像素，按局部平均亮度二值化后送入卷积。卷积页再把编辑后的 49 个像素交给检索页。检索页把所选描述送入 BPE，BPE 把文本、语料和已执行的合并轮数送入因果掩码课。所有计算均在浏览器内完成。
+Patch Lens 传递图块大小、投影方式和查询位置。Self-attention 把查询、来源和 V 的改变量传给位置实验。该实验从跟踪图块的中心取出 7 × 7 像素，按局部平均亮度二值化后送入卷积。卷积把编辑后的像素和核方向传给池化，池化把平移后的图像送入检索。检索页把所选描述送入 BPE，BPE 把文本、语料和已执行的合并轮数送入因果掩码课。该课的查询输出继续用于采样，反向传播的当前权重和学习率则带入小批量实验。所有计算均在浏览器内完成。
 
 ## 本地运行
 

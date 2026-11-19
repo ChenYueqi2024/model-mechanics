@@ -1,6 +1,6 @@
 const GradientLab = (() => {
-  function evaluate(weight) {
-    const input = 2, gain = 1.5, target = 3;
+  function evaluate(weight, target = 3) {
+    const input = 2, gain = 1.5;
     const hidden = input * weight;
     const prediction = gain * hidden;
     const error = prediction - target;

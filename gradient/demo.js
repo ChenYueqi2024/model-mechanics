@@ -22,6 +22,7 @@ function render() {
   const rate = Number(id('rate').value);
   const states = GradientLab.trajectory(rate, step);
   const s = states.at(-1);
+  id('next-lesson').href = '../minibatch/index.html?' + new URLSearchParams({w:s.weight,rate});
   for (const key of ['weight', 'hidden', 'prediction', 'error', 'loss']) id(key).textContent = fmt(s[key]);
   id('grad-h').textContent = fmt(s.hiddenGradient);
   id('grad-w').textContent = fmt(s.gradient);

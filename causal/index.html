@@ -7,6 +7,6 @@
 <div class="controls"><label>试分文本 <input id="sample" maxlength="64" type="text"></label><label>当前查询 <select id="query"></select></label><label><input id="mask" type="checkbox" checked> 因果掩码</label><button id="edit">改动下一个 token</button></div>
 <div class="duo"><section class="panel"><h2>序列与信息可见性</h2><div id="tokens" class="chips"></div><p id="context" class="muted"></p><div class="grid mask-map" id="map" role="img" aria-label="每一行是一个查询位置，每一列是一个来源位置"></div><p class="muted">每行一个查询，每列一个来源。✓ 表示可见，× 表示遮住。深色行是当前查询。</p></section>
 <section class="panel"><h2>这个查询读到了什么？</h2><table class="matrix"><thead><tr><th>来源</th><th>改动前权重</th><th>当前权重</th></tr></thead><tbody id="weights"></tbody></table><p id="change" class="readout" aria-live="polite"></p></section></div>
-<details><summary>为什么训练时要遮住右上三角？</summary><p>自回归模型用当前位置的表示预测下一项。训练时整段文本都在内存里，因果掩码使未来位置的 softmax 权重严格为零。推理时也遵循同样的信息边界。</p><p>这里把每个 token 映射成固定标量作为 Q、K、V，改动按钮用值 −1 的探针替代下一项。读数是注意力加权和。下一课研究真实训练中权重怎样随预测误差而更新。</p></details>
-<nav class="actions" aria-label="课间导航"><a href="../bpe/index.html">返回 BPE 分词</a><a class="primary" id="next-lesson" href="../gradient/index.html">研究模型怎样从误差中学习</a></nav>
+<details><summary>为什么训练时要遮住右上三角？</summary><p>自回归模型用当前位置的表示预测下一项。训练时整段文本都在内存里，因果掩码使未来位置的 softmax 权重严格为零。推理时也遵循同样的信息边界。</p><p>这里把每个 token 映射成固定标量作为 Q、K、V，改动按钮用值 −1 的探针替代下一项。读数是注意力加权和。下一课把当前输出投影为四个分数，亲手从中抽取下一项。</p></details>
+<nav class="actions" aria-label="课间导航"><a href="../bpe/index.html">返回 BPE 分词</a><a class="primary" id="next-lesson" href="../sampling/index.html">用当前读数给下一个字符打分</a></nav>
 </main></body></html>

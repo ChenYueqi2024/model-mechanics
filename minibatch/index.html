@@ -1,0 +1,14 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>小批量梯度 · Model Mechanics</title><link rel="stylesheet" href="../course.css">
+<script defer src="../common.js"></script><script defer src="../gradient/model.js"></script><script defer src="model.js"></script><script defer src="demo.js"></script></head><body><main>
+<nav class="top" id="course-nav" aria-label="课程导航"></nav>
+<h1>四个样本，为什么会把权重往两边拉？</h1><p class="intro">继续用上一课的模型，固定输入 2，把目标扩展为 −3、0、3、6。在起点比较第一批和全部样本的梯度，再用相同样本数比较不同批量的轨迹。</p>
+<div class="controls"><label>每批样本数 <select id="size"><option>1</option><option>2</option><option>4</option></select></label><label>样本顺序 <select id="order"><option value="forward">从 −3 到 6</option><option value="reverse">从 6 到 −3</option></select></label><button id="step">更新一批</button><button id="epoch">到本轮末</button><button id="reset">回到起点</button></div>
+<div class="duo"><section class="panel"><h2>在同一个 w 上看梯度</h2><p class="muted" id="setup"></p><table class="matrix numeric"><thead><tr><th>目标</th><th>该样本的梯度</th><th>下一批</th></tr></thead><tbody id="gradients"></tbody></table><p id="compare" class="readout"></p></section>
+<section class="panel"><h2>处理同样多的样本后，w 在哪里？</h2><p class="muted">横轴表示已用于更新的样本数，虚线为整组平均损失最低点 w = 0.5。不同批量只在各自完成一次更新时落点。</p>
+<svg viewBox="0 0 360 210" style="width:100%;display:block" role="img" aria-label="三种批量下的权重轨迹">
+<path d="M44 14 V174 H340" stroke="#869c95" fill="none"/><line x1="44" x2="340" id="goal" stroke="#777" stroke-dasharray="3 4"/>
+<g fill="none" stroke-width="2.5"><polyline id="trace1" stroke="#087569"/><polyline id="trace2" stroke="#a44923" stroke-dasharray="7 3"/><polyline id="trace4" stroke="#54529b" stroke-dasharray="2 3"/></g>
+<g font-size="12" fill="#35514f"><text x="39" y="18" id="top" text-anchor="end"></text><text x="39" y="176" id="bottom" text-anchor="end"></text><text x="44" y="194">0</text><text x="340" y="194" text-anchor="end">16 个样本</text></g></svg>
+<p class="muted">绿色实线为批量 1，棕色长虚线为 2，紫色短虚线为 4。</p><p class="readout" id="progress" aria-live="polite"></p></section></div>
+<details><summary>为什么换顺序后会走出不同轨迹？</summary><p>先在同一个 w 上计算一批内各样本的梯度，取平均后更新一次。下一批从新 w 出发。整批一次看完四个目标，倒序后平均值相同；小批量可能在看到后面的样本前就改变了权重。</p><p>四个目标等权，预测为 3w。平均目标是 1.5，所以全数据损失在 w = 0.5 处最低。切换批量会对齐到最近一个已完成的批次；最多重放四轮。此处是固定顺序的教学回放。</p></details>
+<nav class="actions" aria-label="课间导航"><a href="../gradient/index.html">返回反向传播</a><a class="primary" id="next-lesson" href="../generalization/index.html">在留出样本上检验学习效果</a></nav></main></body></html>

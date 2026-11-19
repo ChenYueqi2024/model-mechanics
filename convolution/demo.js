@@ -24,7 +24,7 @@ function makeGrid(name, size, action) {
 makeGrid('pixels', 7, (r,c) => { image[r][c] = 1 - image[r][c]; });
 makeGrid('responses', 5, (r,c) => { row = r; col = c; });
 function render() {
-  id('to-retrieval').href = '../retrieval/index.html?pixels=' + image.flat().join('');
+  id('to-pooling').href = '../pooling/index.html?' + new URLSearchParams({ pixels: image.flat().join(''), kernel: id('kernel').value });
   const kernel = ConvLab.kernels[id('kernel').value];
   const output = ConvLab.apply(image, kernel);
   image.forEach((line, r) => line.forEach((v,c) => {

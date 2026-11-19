@@ -1,0 +1,9 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>池化与平移 · Model Mechanics</title><link rel="stylesheet" href="../course.css">
+<script defer src="../common.js"></script><script defer src="../convolution/model.js"></script><script defer src="model.js"></script><script defer src="demo.js"></script></head><body><main>
+<nav class="top" id="course-nav" aria-label="课程导航"></nav>
+<h1>边缘平移一格，压缩后的特征还一样吗？</h1><p class="intro">沿用卷积课的图像和卷积核，把响应取绝对值得到边缘强度。先用 2 × 2 窗口取最大值，再把图像向右移动一格。猜猜哪些输出格还能保留原来的值。</p>
+<div class="controls"><label>图像右移 <select id="shift"><option value="0">0 像素</option><option value="1">1 像素</option><option value="2">2 像素</option></select></label><label>池化方式 <select id="method"><option value="max">最大值</option><option value="mean">平均值</option></select></label><label>窗口步幅 <select id="stride"><option>2</option><option>1</option></select></label></div>
+<div class="duo"><section class="panel"><h2>平移前</h2><p class="muted">上图是卷积响应强度，下图是池化输出。</p><div class="pool-map" id="before-map"></div><div class="pool-map pooled" id="before-out"></div></section>
+<section class="panel"><h2>当前图像</h2><p class="muted">点下方的输出格，可在两边对照同一个窗口。</p><div class="pool-map" id="after-map"></div><div class="pool-map pooled" id="after-out"></div></section></div><p class="readout" id="window" aria-live="polite"></p><p id="summary"></p>
+<details><summary>平移发生在哪里，边界怎样处理？</summary><p>先在 7 × 7 像素图上平移，空出的左列复制原左边界，再用上一课的核重新计算 5 × 5 响应。池化只汇总完整窗口。步幅 2 时会舍去最后一行和一列，步幅 1 时相邻窗口重叠。</p><p>最大池化只记录窗口里的最强响应。特征跨过窗口边界时，输出可能改变。下一课把当前平移后的像素图交给图文检索，用有方向的卷积响应来寻找描述。</p></details>
+<nav class="actions" aria-label="课间导航"><a href="../convolution/index.html">返回卷积与边缘</a><a class="primary" id="next-lesson" href="../retrieval/index.html">带着当前图像去找描述</a></nav></main></body></html>
