@@ -7,7 +7,7 @@ if (crop) {
   id('scene').add(new Option('上一课的图块中心','crop'));
   id('scene').value = 'crop';
   image = crop.map(line => line.slice());
-  document.querySelector('.intro').textContent = '输入取自上一课跟踪图块的中心 7 × 7 像素。以窗口平均亮度为阈值，把较亮的像素记为 1。移动卷积核，观察纹理在哪个方向有响应；也可以换成单条边缘来做对照。';
+  document.querySelector('.intro').textContent = '输入取自上一课选中图块的中心 7 × 7 像素。以窗口平均亮度为阈值，把较亮的像素记为 1。移动卷积核，观察纹理在哪个方向有响应；也可以换成单条边缘来做对照。';
 }
 let row = 2, col = 1;
 function makeGrid(name, size, action) {

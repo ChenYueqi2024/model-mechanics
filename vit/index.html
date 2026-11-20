@@ -1,0 +1,8 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Vision Transformer · Model Mechanics</title><link rel="stylesheet" href="../course.css">
+<script defer src="../common.js"></script><script defer src="../patch/model.js"></script><script defer src="../position/model.js"></script><script defer src="../transformer/model.js"></script><script defer src="model.js"></script><script defer src="demo.js"></script></head><body><main>
+<nav class="top" id="course-nav" aria-label="课程导航"></nav>
+<h1>一个 [CLS] 怎样读完整张图？</h1><p class="intro">图块前多放一个可参与注意力的 [CLS] token，再通过语言课用过的 Transformer 块。点击一个图块，比较保留和移除它时整张图的读数。</p>
+<div class="duo"><section class="panel"><h2>[CLS] 分给图块的权重</h2><p class="muted">格子按图像位置排列，数字为完整序列中的注意力百分比。框线标出要移除的图块。</p><div class="grid heat" id="tiles"></div><p id="self"></p></section>
+<section class="panel"><h2>比较图像级读出</h2><p id="shape"></p><table class="matrix"><thead><tr><th>序列</th><th>读出分数</th></tr></thead><tbody id="scores"></tbody></table><p class="readout" id="result" aria-live="polite"></p></section></div>
+<details><summary>图像和语言到底共用哪一部分？</summary><p>这里沿用 Patch Lens 的图块投影、二维位置实验的排列，以及语言课同一个单头 Transformer 块。图像端使用双向注意力，保留或移除一个图块时，其余图块的坐标保持不变。手工设定的读出头取 [CLS] 输出的第一维减第二维，分数用于观察信息传递。真实 ViT 会学习图块投影、位置向量、[CLS] 和分类头。</p><a href="https://arxiv.org/abs/2010.11929">ViT 原论文</a></details>
+<nav class="actions" aria-label="课间导航"><a href="../position/index.html">返回二维位置编码</a><a class="primary" id="next-lesson" href="../convolution/index.html">检查选中图块的局部边缘</a></nav></main></body></html>

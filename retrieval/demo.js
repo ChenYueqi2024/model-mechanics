@@ -13,7 +13,7 @@ if (images.length > 4) id('image-choice').value = 4;
 Retrieval.captions.forEach(c=>id('caption').add(new Option(c,c)));
 let steps = 0;
 function handoff() {
-  id('next-lesson').href = '../bpe/index.html?' + new URLSearchParams({caption:id('caption').value});
+  id('caption-link').href = '../bpe/index.html?' + new URLSearchParams({caption:id('caption').value});
 }
 function render() {
   const image = images[Number(id('image-choice').value)];

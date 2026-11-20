@@ -40,7 +40,7 @@ function render() {
   const before = CausalLab.read(values,query,masked);
   if (edited) values[query+1] = -1;
   const after = CausalLab.read(values,query,masked);
-  id('next-lesson').href = '../sampling/index.html?' + new URLSearchParams({h:after.output});
+  id('next-lesson').href = '../sampling/index.html?' + new URLSearchParams({h:after.output,tokens:JSON.stringify(tokens.map((t,i)=>edited && i===query+1?'★':t))});
   tokens.forEach((t,i)=>{
     const row = id('weights').insertRow();
     [label(t)+(edited && i===query+1?' → ★':''),before.weights[i],after.weights[i]].forEach((v,j)=>{

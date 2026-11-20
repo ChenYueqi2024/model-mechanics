@@ -11,4 +11,4 @@
 <g font-size="12" fill="#35514f"><text x="39" y="18" id="top" text-anchor="end"></text><text x="39" y="176" id="bottom" text-anchor="end"></text><text x="44" y="194">0</text><text x="340" y="194" text-anchor="end">16 个样本</text></g></svg>
 <p class="muted">绿色实线为批量 1，棕色长虚线为 2，紫色短虚线为 4。</p><p class="readout" id="progress" aria-live="polite"></p></section></div>
 <details><summary>为什么换顺序后会走出不同轨迹？</summary><p>先在同一个 w 上计算一批内各样本的梯度，取平均后更新一次。下一批从新 w 出发。整批一次看完四个目标，倒序后平均值相同；小批量可能在看到后面的样本前就改变了权重。</p><p>四个目标等权，预测为 3w。平均目标是 1.5，所以全数据损失在 w = 0.5 处最低。切换批量会对齐到最近一个已完成的批次；最多重放四轮。此处是固定顺序的教学回放。</p></details>
-<nav class="actions" aria-label="课间导航"><a href="../gradient/index.html">返回反向传播</a><a class="primary" id="next-lesson" href="../generalization/index.html">在留出样本上检验学习效果</a></nav></main></body></html>
+<nav class="actions" aria-label="课间导航"><a href="../gradient/index.html">返回反向传播</a><a class="primary" id="next-lesson" href="../curriculum/index.html">比较先易后难的训练顺序</a></nav></main></body></html>

@@ -10,4 +10,4 @@
 <section class="panel"><h2>边缘响应</h2><p class="muted">点击输出格移动窗口。绿色为正，棕色为负，数字表示响应强度与方向。</p><div id="responses" class="grid samples" aria-label="可选择的输出位置"></div></section></div>
 <section class="panel working"><h2>所选位置的九次乘法</h2><p class="muted">格内依次显示像素值、核权重与乘积。九项之和写入右图的所选格。</p><div id="products" class="grid products"></div><p class="readout" id="sum" aria-live="polite"></p></section>
 <details><summary>为什么整张图都用同一个核？</summary><p>共享权重让同一种局部变化在不同位置产生同样的响应。左右差分核把右列的加权亮度减去左列的加权亮度；区域均匀时，两侧刚好抵消。反转明暗会让这个零和核的响应变号。</p><p>这里采用深度学习卷积层常用的互相关运算，核按原方向滑动。步幅为 1，边界不填充，所以 7 × 7 输入对应 5 × 5 输出。本课手动指定两个 Sobel 核，训练中的卷积层可以学习核权重。</p><a href="https://d2l.ai/chapter_convolutional-neural-networks/conv-layer.html">延伸阅读 · 图像卷积与互相关</a></details>
-<nav class="actions"><a href="../position/index.html">返回图块位置实验</a><a id="to-pooling" class="primary" href="../pooling/index.html">看看池化留下了哪些响应</a></nav></main></body></html>
+<nav class="actions"><a href="../vit/index.html">返回 ViT</a><a id="to-pooling" class="primary" href="../pooling/index.html">看看池化留下了哪些响应</a></nav></main></body></html>

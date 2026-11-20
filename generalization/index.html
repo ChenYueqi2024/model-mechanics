@@ -7,6 +7,6 @@
 <div class="controls"><label>邻居数 k <select id="k"><option>1</option><option>3</option><option>7</option><option>15</option></select></label><label><input id="noise" type="checkbox" checked> 翻转中心训练标签</label></div>
 <div class="duo"><section class="panel"><h2>只用这 15 个训练点投票</h2><p class="muted">从左到右排列 x = −7 至 7。边框标出当前查询使用的邻居。</p><div id="train" class="point-strip"></div><p id="training" class="readout"></p><label>检查留出位置 <input type="range" min="0" max="27" value="13" id="probe"></label><p id="vote"></p></section>
 <section class="panel"><h2>在另外 28 个位置上验算</h2><p class="muted">这些位置的正确标签只用于评分。每列是一道新题，点击预测格可查看它的邻居。</p><h3>真实标签</h3><div id="truth" class="validation-grid"></div><h3>预测标签</h3><div id="predictions" class="validation-grid"></div><p id="validation" class="readout" aria-live="polite"></p></section></div>
-<details><summary>为什么增大 k 有时能提高留出成绩？</summary><p>一个邻居会照搬最近的训练标签，包括错标签。三个邻居可以用多数票纠正孤立错误。试试把 k 增大到 15：所有位置都使用同一批邻居，模型也会丢失局部边界。</p><p>本例的留出标签来自规则 |x| &lt; 3.5，两类位置互不重合。训练成绩让每个训练点也参与自己的投票。下一站为选修，换到强化学习，观察奖励怎样取代已有标签。</p></details>
-<nav class="actions" aria-label="课间导航"><a href="../minibatch/index.html">返回小批量梯度</a><a class="primary" id="next-lesson" href="../rl/index.html">选修 · 进入强化学习迷宫</a></nav>
+<details><summary>为什么增大 k 有时能提高留出成绩？</summary><p>一个邻居会照搬最近的训练标签，包括错标签。三个邻居可以用多数票纠正孤立错误。试试把 k 增大到 15：所有位置都使用同一批邻居，模型也会丢失局部边界。</p><p>本例的留出标签来自规则 |x| &lt; 3.5，两类位置互不重合。训练成绩让每个训练点也参与自己的投票。下一站进入条件计算，研究怎样给每个输入选择不同专家。</p></details>
+<nav class="actions" aria-label="课间导航"><a href="../curriculum/index.html">返回课程学习</a><a class="primary" id="next-lesson" href="../moe/index.html">观察专家如何分工</a></nav>
 </main></body></html>

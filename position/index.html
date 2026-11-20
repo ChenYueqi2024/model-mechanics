@@ -7,6 +7,6 @@
 <div class="controls"><button id="swap">交换两块</button><label><input id="coords" type="checkbox"> 加入二维位置编码</label><span class="muted" id="setup"></span></div>
 <div class="duo"><section class="panel"><h2>同一张输入图</h2><canvas id="picture" width="256" height="256" class="patch-preview" aria-label="图块位置图，橙框跟随查询图块"></canvas><p id="where"></p></section>
 <section class="panel"><h2>跟着同一个查询比较</h2><table class="matrix numeric"><thead><tr><th>分量</th><th>原排列</th><th>当前排列</th></tr></thead><tbody id="values"></tbody></table><p class="readout" id="change" aria-live="polite"></p></section></div>
-<details><summary>为什么交换前后的读数会重合？</summary><p>只使用内容时，移动图块会同时重排对应的权重和 V。跟着同一图块读取时，加权和相同。勾选坐标后，我们在输入 Q、K 投影前，把 0 到 0.5 的行、列编码分别加到前两个分量。V 继续只传递图块内容及上一课选定的改动。</p><p>下一课换一种读位置的方法：把周围九个像素按固定的空间顺序交给卷积核。</p></details>
-<nav class="actions" aria-label="课间导航"><a href="../attention/index.html">返回 Self-attention</a><a class="primary" id="next-lesson" href="../convolution/index.html">用卷积读取局部位置</a></nav>
+<details><summary>为什么交换前后的读数会重合？</summary><p>只使用内容时，移动图块会同时重排对应的权重和 V。跟着同一图块读取时，加权和相同。勾选坐标后，我们在输入 Q、K 投影前，把 0 到 0.5 的行、列编码分别加到前两个分量。V 继续只传递图块内容及上一课选定的改动。</p><p>下一课把当前排列的图块和 [CLS] 一起送入 ViT，再观察整图读数。</p></details>
+<nav class="actions" aria-label="课间导航"><a href="../attention/index.html">返回 Self-attention</a><a class="primary" id="next-lesson" href="../vit/index.html">让 [CLS] 汇总图块</a></nav>
 </main></body></html>

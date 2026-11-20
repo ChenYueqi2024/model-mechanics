@@ -1,0 +1,9 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>图神经网络 · Model Mechanics</title><link rel="stylesheet" href="../course.css">
+<script defer src="../common.js"></script><script defer src="model.js"></script><script defer src="demo.js"></script></head><body><main>
+<nav class="top" id="course-nav" aria-label="课程导航"></nav>
+<h1>A 的消息，几层之后能到达 E？</h1><p class="intro">只有信号源的初值为 1，其余节点为 0。每层同步汇总自己和邻居的值。先沿链传播，再连一条 A–E 捷径，看一个远处节点最早在哪层收到信号。</p>
+<div class="controls"><label>信号源 <select id="source"><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option></select></label><label><input id="shortcut" type="checkbox"> 连通 A 和 E</label><button id="step">传播一层</button><button id="reset">回到第 0 层</button></div>
+<div class="duo"><section class="panel"><h2>图上的节点状态</h2><svg id="graph" viewBox="0 0 360 155" role="img" aria-label="五个节点的连接关系与当前信号强度" style="width:100%"></svg><p id="depth" class="readout"></p></section>
+<section class="panel"><h2>跟踪一次邻居聚合</h2><label>观察节点 <select id="node"><option>A</option><option>B</option><option>C</option><option>D</option><option selected>E</option></select></label><p id="terms"></p><p id="next"></p></section></div>
+<details><summary>这一层怎样对应图神经网络？</summary><p>这是消息传递 GNN 的均值聚合特例：每条边双向传递上一层的状态，自身也参与平均，线性变换固定为单位权重。每层跨越一条边。连接关系决定信息能走哪条路，增加层数会扩大感受野。</p><a href="https://arxiv.org/abs/1609.02907">阅读图卷积网络论文</a></details>
+<nav class="actions" aria-label="课间导航"><a href="../moe/index.html">返回稀疏 MoE</a><a class="primary" id="next-lesson" href="../rl/index.html">选修 · 进入强化学习迷宫</a></nav></main></body></html>

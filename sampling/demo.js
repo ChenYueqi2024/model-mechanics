@@ -5,6 +5,7 @@ const raw = params.get('h'), parsed = Number(raw);
 const carried = raw !== null && raw.trim() !== '' && Number.isFinite(parsed) && parsed>=-1 && parsed<=1.2;
 const h = carried ? parsed : 0.8;
 let count = 0;
+if (params.has('tokens')) id('next-lesson').href = '../transformer/index.html?' + new URLSearchParams({tokens:params.get('tokens').slice(0,1024)});
 id('context').textContent = (carried ? '来自上一课所选查询的输出' : '示例查询的输出') + ' h = '+h.toFixed(4)+'。四个字符使用固定的教学用权重。';
 function render() {
   const scores = Sampling.logits(h);

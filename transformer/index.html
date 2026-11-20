@@ -1,0 +1,9 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Transformer 块 · Model Mechanics</title><link rel="stylesheet" href="../course.css">
+<script defer src="../common.js"></script><script defer src="model.js"></script><script defer src="demo.js"></script></head><body><main>
+<nav class="top" id="course-nav" aria-label="课程导航"></nav>
+<h1>注意力算完，一个 Transformer 块还做什么？</h1><p class="intro">选中一个语言 token，看它怎样汇总其他位置的信息。再关掉前馈层，预测哪一行读数会改变。</p>
+<div class="controls"><label><input type="checkbox" id="mask" checked> 遮住未来位置</label><label><input type="checkbox" id="ff" checked> 启用前馈层</label></div>
+<div class="duo"><section class="panel"><h2>选择查询 token</h2><div class="stepper" id="tokens"></div><h3>该查询分给各位置的权重</h3><div id="bars"></div></section>
+<section class="panel"><h2>跟着一个向量走完一层</h2><table class="matrix"><thead><tr><th>计算阶段</th><th>四维读数</th></tr></thead><tbody id="stages"></tbody></table><p class="readout" id="delta"></p></section></div>
+<details><summary>这是什么版本的 Transformer？</summary><p>这是一个使用固定权重的四维、单头、前置层归一化教学块。字符内容和位置共同形成输入。归一化后用单位矩阵生成 Q、K、V，点积除以 √4。注意力结果加回输入，再经过层归一化、两次线性变换、中间的 ReLU 和第二条残差连接。关闭前馈层时，第一条残差仍然传递。</p><p>下一课把图像也切成 token。进入 ViT 实验后，同一个计算函数会处理图块序列。</p><a href="https://arxiv.org/abs/1706.03762">2017 年 Transformer 原论文</a></details>
+<nav class="actions" aria-label="课间导航"><a href="../sampling/index.html">返回温度与采样</a><a class="primary" id="next-lesson" href="../patch/index.html">把语言 token 换成图像 token</a></nav></main></body></html>

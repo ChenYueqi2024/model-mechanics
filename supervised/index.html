@@ -1,0 +1,9 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>监督学习 · Model Mechanics</title><link rel="stylesheet" href="../course.css">
+<script defer src="../common.js"></script><script defer src="model.js"></script><script defer src="demo.js"></script></head><body><main>
+<nav class="top" id="course-nav" aria-label="课程导航"></nav>
+<h1>换掉一个标签，模型会学到什么？</h1><p class="intro">六个数值样本各带一个 0 或 1 标签。训练一个二分类器，再只翻转靠近边界的一个标签。比较同样多次更新后的预测和损失。</p>
+<div class="controls"><label><input id="flip" type="checkbox"> 翻转 x = 0.4 的训练标签</label><label>训练轮数 <input type="range" min="0" max="12" value="0" id="epochs"></label><button id="train">训练 6 轮</button></div>
+<div class="duo"><section class="panel"><h2>标签与预测概率</h2><table class="matrix"><thead><tr><th>x</th><th>训练标签</th><th>P(1)</th></tr></thead><tbody id="samples"></tbody></table></section>
+<section class="panel"><h2>检验一个新输入</h2><label>输入 x <input type="range" id="probe" min="-3" max="3" step="0.1" value="1.2"></label><p class="readout" id="prediction"></p><p id="loss"></p></section></div>
+<details><summary>标签怎样参与更新？</summary><p>模型预测 P(1) = sigmoid(wx + b)，从 w = b = 0 开始。对于标签 y，用交叉熵衡量误差；w 的梯度为 (P − y)x，b 的梯度为 P − y。按表格顺序每次更新一个样本，学习率固定为 0.25。预测阶段只需提供 x。</p></details>
+<nav class="actions" aria-label="课间导航"><a href="../retrieval/index.html">返回图文检索</a><a class="primary" id="next-lesson" href="../gradient/index.html">拆开一次反向传播</a></nav></main></body></html>

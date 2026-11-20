@@ -11,8 +11,6 @@ function indexParam(key) {
   return Number.isInteger(v) && v >= 0 && v < tokens.length ? v : 0;
 }
 const query = indexParam('query'), source = indexParam('source');
-const crop = PositionLab.binaryCrop(pixels,size,query,PatchLens.side);
-id('next-lesson').href = '../convolution/index.html?crop=' + crop.flat().join('');
 const delta = Math.max(-2, Math.min(2, Number(params.get('delta')) || 0));
 let moved = false;
 const tileSheet = document.createElement('canvas');
@@ -26,6 +24,7 @@ for (let i = 0; i < pixels.length/3; i++) {
 sheet.putImageData(data,0,0);
 function render() {
   const positioned = id('coords').checked;
+  id('next-lesson').href = '../vit/index.html?' + new URLSearchParams({size,mode,query,moved,coords:positioned});
   const layout = swap => PositionLab.layout(tokens,query,swap,positioned,Attention.attend,source,delta);
   const before = layout(false), after = layout(moved);
   const ctx = id('picture').getContext('2d');
