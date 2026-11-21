@@ -9,4 +9,4 @@
 <section class="panel"><h2>哪条描述最匹配？</h2><table class="matrix"><thead><tr><th>备选描述</th><th>词向量</th><th>匹配概率</th></tr></thead><tbody id="matches"></tbody></table><p id="loss" class="readout" aria-live="polite"></p><label>送回分词课的描述 <select id="caption"></select></label><p class="muted" id="verdict"></p></section></div>
 <details><summary>模型从哪些配对中学习？</summary><p>训练集有四张单边缘图，分别是右亮、左亮、下亮、上亮。bright 共用零向量，四个方向词各学一个二维向量。每张图与四个词向量做点积，经 softmax 后对正确描述计算交叉熵，再用整批梯度更新词向量。更换查询图像只影响检索，更换配对才会改变训练。</p><p>这个小实验借用了图文对比学习的思想，只训练文字一侧，使用图到文的单向损失。可把选中的英文描述送回语言课拆成子词，也可以继续研究标签怎样监督模型训练。</p><a href="https://proceedings.mlr.press/v139/radford21a.html">CLIP 原论文</a></details>
 <nav class="actions" aria-label="课间导航"><a href="../pooling/index.html">返回池化与平移</a><a id="caption-link" href="../bpe/index.html">把这条描述送回 BPE</a><a class="primary" href="../supervised/index.html">用标签训练一个分类器</a></nav>
-</main></body></html>
+<footer class="actions" aria-label="实验目录"><a href="/explore/">返回实验目录</a></footer></main></body></html>
