@@ -39,7 +39,7 @@
 
 - [稀疏 MoE](https://chenyueqi2024.github.io/model-mechanics/moe/) · 调节路由偏置和 top-k，观察门权重、专家输出与负载。
 - [图神经网络](https://chenyueqi2024.github.io/model-mechanics/gnn/) · 逐层传播信号，加入一条捷径并检验邻居的贡献。
-- [Q-learning](https://chenyueqi2024.github.io/model-mechanics/rl/) · 给每一步标一个价格，看智能体学会选择哪个终点。
+- [强化学习专题](https://chenyueqi2024.github.io/model-mechanics/rl/) · 对照两种老虎机策略，逐步回放 Q-learning，再试着让代理奖励和真实目标产生偏差。
 
 ## 跨课实验
 

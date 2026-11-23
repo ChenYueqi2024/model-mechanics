@@ -26,20 +26,20 @@ const GridLab = (() => {
       return state / 4294967296;
     };
   }
-  function train(cost, episodes = 400, seed = 42) {
+  function train(cost, episodes = 400, seed = 42, { discount = gamma, epsilon = 0.25, warmup = 100 } = {}) {
     const random = randomStream(seed);
     const q = new Float64Array(width * height * 4);
     const events = [], ends = [];
     for (let episode = 1; episode <= episodes; episode++) {
       let s = start;
       for (let step = 1; step <= 80; step++) {
-        const explore = random() < (episode <= 100 ? 1 : 0.25);
+        const explore = random() < (episode <= warmup ? 1 : epsilon);
         const choices = explore ? edges[s] : bestMoves(q, s);
         const { a, next } = choices[Math.floor(random() * choices.length)];
         const reward = (next === near ? 2 : next === far ? 8 : 0) - cost;
         const future = terminal(next) ? 0 : Math.max(...edges[next].map(e => q[next * 4 + e.a]));
         const old = q[s * 4 + a];
-        const target = reward + gamma * future;
+        const target = reward + discount * future;
         const value = old + alpha * (target - old);
         q[s * 4 + a] = value;
         events.push({ episode, step, s, a, next, reward, future, target, old, value, explore });
@@ -67,6 +67,66 @@ const GridLab = (() => {
     }
     return { path, loop: false };
   }
-  return { width, height, start, near, far, wall, arrows, alpha, gamma, edges, bestMoves, train, tableAt, route };
+  function discountedReturn(cost, discount, steps, bonus) {
+    let total = 0;
+    for (let t = 0; t < steps; t++) {
+      total += discount ** t * (t === steps - 1 ? bonus - cost : -cost);
+    }
+    return total;
+  }
+
+  const banditProbabilities = [0.35, 0.50, 0.65];
+  function compareBandits(rounds, epsilon, repeats = 64) {
+    const policies = [
+      { epsilon: 0, choices: [0, 0, 0], tokens: 0, regret: 0 },
+      { epsilon, choices: [0, 0, 0], tokens: 0, regret: 0 }
+    ];
+    for (let rep = 0; rep < repeats; rep++) {
+      const seed = 42 + Math.imul(rep, 0x9e3779b9);
+      const outcomes = randomStream(seed);
+      const draws = Array.from({ length: rounds }, () =>
+        banditProbabilities.map(p => Number(outcomes() < p)));
+      for (const policy of policies) {
+        const random = randomStream(seed ^ 0x86bd4);
+        const counts = [0, 0, 0], means = [0, 0, 0];
+        draws.forEach((results, round) => {
+          let arm = round;
+          if (round >= counts.length) {
+            const best = Math.max(...means);
+            const candidates = [0, 1, 2].filter(index => means[index] === best);
+            arm = random() < policy.epsilon ? Math.floor(random() * counts.length)
+              : candidates[Math.floor(random() * candidates.length)];
+          }
+          const observed = results[arm];
+          counts[arm]++;
+          means[arm] += (observed - means[arm]) / counts[arm];
+          policy.choices[arm]++;
+          policy.tokens += observed;
+          policy.regret += banditProbabilities[2] - banditProbabilities[arm];
+        });
+      }
+    }
+    return policies.map(policy => ({
+      fractions: policy.choices.map(count => count / (rounds * repeats)),
+      tokens: policy.tokens / repeats, regret: policy.regret / repeats
+    }));
+  }
+
+  const responseTypes = [
+    { name: '简明且正确', accuracy: 0.94, format: 0.36 },
+    { name: '详细有依据', accuracy: 0.83, format: 0.62 },
+    { name: '格式漂亮但常出错', accuracy: 0.43, format: 0.98 }
+  ];
+  function optimizeReward(weight) {
+    const scores = responseTypes.map(({ accuracy, format }) => (1 - weight) * accuracy + weight * format);
+    const preferences = scores.map(score => Math.exp(8 * score));
+    const total = preferences.reduce((sum, value) => sum + value, 0);
+    const rates = preferences.map(value => value / total);
+    const average = metric => responseTypes.reduce((sum, item, i) => sum + rates[i] * item[metric], 0);
+    return { rates, accuracy: average('accuracy'), format: average('format') };
+  }
+
+  return { width, height, start, near, far, wall, arrows, alpha, gamma, edges, bestMoves, train, tableAt, route,
+    discountedReturn, banditProbabilities, compareBandits, responseTypes, optimizeReward };
 })();
 if (typeof module !== 'undefined') module.exports = GridLab;

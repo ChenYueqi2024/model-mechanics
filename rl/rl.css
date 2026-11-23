@@ -1,0 +1,15 @@
+[hidden] {display:none!important}
+.rl-nav {display:flex;flex-wrap:wrap;gap:6px 20px;font-weight:700}
+.rl-section {margin:26px 0 36px;border-top:1px solid var(--rule);padding-top:18px}
+.rl-section>h2 {font-size:clamp(21px,3vw,30px)}
+.rl-section details p {max-width:76ch}
+.rl-section .panel h3 {font-size:1.13rem}
+.rl-section .controls label {max-width:100%}
+.rl-section .controls input[type=range] {margin:0 4px;max-width:100%}
+.rl-bars {display:grid;gap:8px}
+.rl-bar {display:grid;grid-template-columns:minmax(6rem,10rem) minmax(40px,1fr) 4.3rem;gap:6px;align-items:center}
+.rl-bar progress {width:100%;height:1.05rem}
+.rl-bar span:last-child {text-align:right;font-variant-numeric:tabular-nums}
+.rl-reading .panel {height:100%;overflow-wrap:anywhere}
+@media(max-width:370px){.rl-bar {grid-template-columns:minmax(5.7rem,1.4fr) minmax(30px,1fr) 3.3rem}.rl-section .controls input[type=range]{display:block;margin:4px 0}}
+

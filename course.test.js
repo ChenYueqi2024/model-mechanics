@@ -71,3 +71,32 @@ test('the two costs lead to opposite learned and optimal destinations', () => {
     assert.equal(farReturn > 2 - cost, goal === rl.far);
   }
 });
+
+test('bandit policies share outcomes and report normalized action frequencies', () => {
+  const same = rl.compareBandits(20, 0);
+  assert.deepEqual(same[0], same[1]);
+  for (const result of rl.compareBandits(300, 0.25)) {
+    close(result.fractions.reduce((sum, value) => sum + value, 0), 1);
+    close(result.regret, result.fractions.reduce((sum, value, i) =>
+      sum + 300 * value * (0.65 - rl.banditProbabilities[i]), 0));
+  }
+});
+
+test('configurable Q-learning uses the selected discount and still stops bootstrapping at terminals', () => {
+  const discount = 0.25;
+  const {events} = rl.train(0.1, 400, 42, {discount, epsilon:0.25, warmup:100});
+  events.forEach(event => {
+    close(event.target, event.reward + discount * event.future);
+    if (event.next === rl.near || event.next === rl.far) close(event.future, 0);
+  });
+  assert.ok(rl.discountedReturn(0.1, discount, 1, 2) > rl.discountedReturn(0.1, discount, 6, 8));
+  assert.equal(rl.route(rl.tableAt(events, events.length)).path.at(-1), rl.near);
+});
+
+test('emphasizing the proxy favors formatting at the cost of independent correctness', () => {
+  const baseline = rl.optimizeReward(0);
+  const proxy = rl.optimizeReward(1);
+  close(proxy.rates.reduce((sum, value) => sum + value, 0), 1);
+  assert.ok(proxy.format > baseline.format);
+  assert.ok(proxy.accuracy < baseline.accuracy);
+});
