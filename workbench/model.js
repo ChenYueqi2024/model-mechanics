@@ -14,6 +14,32 @@ const Workbench = (() => {
       cost: (fp + fn * missCost) / (positive.length + negative.length * negativeWeight) };
   }
 
+  const thresholds = [...new Set([...positive, ...negative])].sort((a, b) => b - a);
+  function scorePoint(cutoff, negativeWeight) {
+    const point = confusion(cutoff, negativeWeight, 1);
+    return {...point, fpr: point.fp / (point.fp + point.tn)};
+  }
+
+  function scoreCurves(negativeWeight) {
+    const points = [Infinity, ...thresholds].map(cutoff => scorePoint(cutoff, negativeWeight));
+    let auc = 0, ap = 0;
+    for (let i = 1; i < points.length; i++) {
+      const previous = points[i - 1], current = points[i];
+      auc += (current.fpr - previous.fpr) * (current.recall + previous.recall) / 2;
+      ap += (current.recall - previous.recall) * current.precision;
+    }
+    return {points, auc, ap};
+  }
+
+  function reviewBudget(cutoffA, cutoffB, budget) {
+    const a = confusion(cutoffA, 1, 1);
+    // B has the same samples with every score shifted down 18 points, clipped at zero.
+    const b = confusion(cutoffB === 0 ? 0 : cutoffB + 18, 1, 1);
+    const reviews = a.tp + a.fp + b.tp + b.fp;
+    return { a, b, reviews, over: Math.max(0, reviews - budget),
+      recallGap: Math.abs(a.recall - b.recall) };
+  }
+
   function routeTokens(skew, capacity, reroute) {
     const demand = [0, 0, 0], load = [0, 0, 0];
     const tokens = Array.from({length: 12}, (_, index) => {
@@ -82,6 +108,6 @@ const Workbench = (() => {
     return { actions, selected };
   }
 
-  return { positive, negative, confusion, routeTokens, attention, aggregate, smooth, bellman, offline };
+  return { positive, negative, confusion, scorePoint, scoreCurves, reviewBudget, routeTokens, attention, aggregate, smooth, bellman, offline };
 })();
 if (typeof module !== 'undefined') module.exports = Workbench;

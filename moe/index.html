@@ -6,4 +6,4 @@
 <div class="duo"><section class="panel"><h2>单个 token 的路由</h2><table class="matrix"><thead><tr><th>专家</th><th>分数</th><th>门权重</th><th>专家输出</th></tr></thead><tbody id="route"></tbody></table><p class="readout" id="output"></p></section>
 <section class="panel"><h2>全批负载</h2><div id="load"></div><p id="work"></p></section></div>
 <details><summary>怎样从路由分数算到输出？</summary><p>路由器的三个分数为 −2x、1 − |x| + 偏置、2x，只对选中的 k 个分数做 softmax。A、B、C 分别计算 ReLU(−x)、ReLU(1 − |x|)、ReLU(x)，再按门权重相加。平手按专家顺序选择。此处固定路由和专家参数，单独观察稀疏计算与负载分配。</p><a href="https://arxiv.org/abs/1701.06538">稀疏门控 MoE 论文</a></details>
-<nav class="actions" aria-label="课间导航"><a href="../threshold/index.html">上一专题 · 分类阈值</a><a class="primary" id="next-lesson" href="../moe-capacity/index.html">测试专家容量与改派</a></nav></main></body></html>
+<nav class="actions" aria-label="课间导航"><a href="../review-budget/index.html">上一专题 · 分组误差与复核预算</a><a class="primary" id="next-lesson" href="../moe-capacity/index.html">测试专家容量与改派</a></nav></main></body></html>

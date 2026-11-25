@@ -1,6 +1,6 @@
 # Model Mechanics · 机器学习交互实验
 
-26 个浏览器交互实验，从语言和视觉表征走到监督训练、分类评估、稀疏计算、图结构与序列决策。[语言入口](https://chenyueqi2024.github.io/model-mechanics/bpe/) · [视觉入口](https://chenyueqi2024.github.io/model-mechanics/patch/)
+28 个浏览器交互实验，从语言和视觉表征走到监督训练、分类评估、稀疏计算、图结构与序列决策。[语言入口](https://chenyueqi2024.github.io/model-mechanics/bpe/) · [视觉入口](https://chenyueqi2024.github.io/model-mechanics/patch/) · [网络与信息安全专题](https://chenyueqi2024.github.io/explore/#security)
 
 ## 语言模型基础
 
@@ -15,7 +15,7 @@
 
 把图像切成图块，比较注意力、卷积和池化怎样提取特征，最后用图文检索连接像素与描述。
 
-- [Patch Lens](https://chenyueqi2024.github.io/model-mechanics/patch/) · 在同一张图上切换颜色和纹理投影，寻找一个图块的最近邻。
+- [Patch Lens](https://chenyueqi2024.github.io/model-mechanics/patch/) · [网络与信息安全专题](https://chenyueqi2024.github.io/explore/#security) · 在同一张图上切换颜色和纹理投影，寻找一个图块的最近邻。
 - [Self-attention](https://chenyueqi2024.github.io/model-mechanics/attention/) · 沿用所选图块，只改一个 V 分量，核对它对输出的贡献。
 - [二维位置编码](https://chenyueqi2024.github.io/model-mechanics/position/) · 同一个查询跟着图块移动，比较有无坐标时的注意力输出。
 - [Vision Transformer](https://chenyueqi2024.github.io/model-mechanics/vit/) · 用语言课的同一个块处理图块，移除一个图块并比较整图读数。
@@ -35,9 +35,12 @@
 
 ## 分类评估与决策阈值
 
-固定同一个模型的分数，检查分类阈值、误报和漏报怎样改变实际代价。
+先挑一个操作阈值，再扫过整条 ROC／PR 曲线，最后在分组误差与复核预算之间做取舍。
 
 - [分类阈值与代价](https://chenyueqi2024.github.io/model-mechanics/threshold/) · 拖动阈值，比较误报、漏报与精确率；再改变阳性基率，检查同一阈值的部署结果。
+
+- [ROC、PR 与类别不平衡](https://chenyueqi2024.github.io/model-mechanics/classification-curves/) · 固定模型得分，扫描阈值并改变阳性基率，对照误报率、召回率和精确率。
+- [分组误差与复核预算](https://chenyueqi2024.github.io/model-mechanics/review-budget/) · 比较统一与分组阈值，检查召回差距缩小后，待复核数量会不会超出预算。
 
 ## 稀疏计算与专家路由
 

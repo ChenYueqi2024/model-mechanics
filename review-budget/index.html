@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="质检模型需要把可疑物品交给人工。这里两条产线的合成样本数量相同，B 线每个分数减去 18 个百分点，最低截到 0。用同一个阈值时，两条线会不会得到同样的检测效果？">
+  <title>分组误差与复核预算 · Model Mechanics</title>
+  <link rel="stylesheet" href="../course.css"><link rel="stylesheet" href="../workbench/lab.css">
+  <script defer src="../common.js"></script><script defer src="../workbench/model.js"></script><script defer src="../workbench/demo.js"></script>
+</head>
+<body data-lab="review-budget"><main>
+  <nav class="top" id="course-nav" aria-label="课程导航"></nav>
+  <h1>同一个阈值，为什么两条产线的漏检差这么多？</h1><p class="intro">质检模型需要把可疑物品交给人工。这里两条产线的合成样本数量相同，B 线每个分数减去 18 个百分点，最低截到 0。用同一个阈值时，两条线会不会得到同样的检测效果？</p>
+  <section class="panel" aria-labelledby="try-title">
+    <h2 id="try-title">先做一个对照</h2><p>先读统一阈值下的两组召回率。把策略改为「分别设阈值」，使用默认的 B 线阈值 47%。观察召回差距缩小以后，人工名额还够不够。</p>
+    <noscript><p class="readout">启用 JavaScript 可操作实验。下方原理与文献可直接阅读。</p></noscript>
+    <div id="experiment" hidden>
+      <div class="lab-settings">
+        <label for="mode"><span>策略</span><select id="mode"><option value="shared">统一阈值</option><option value="separate">分别设阈值</option></select></label>
+        <label for="cutoff-a"><span>A 线阈值</span><output for="cutoff-a" data-unit="%"></output><input type="range" id="cutoff-a" min="0" max="100" step="1" value="65"></label>
+        <label for="cutoff-b"><span>B 线阈值</span><output for="cutoff-b" data-unit="%"></output><input type="range" id="cutoff-b" min="0" max="100" step="1" value="47"></label>
+        <label for="budget"><span>本批人工复核名额</span><output for="budget" data-unit=""></output><input type="range" id="budget" min="0" max="80" step="1" value="26"></label>
+      </div>
+      <div id="visual" class="lab-visual"></div>
+      <p id="result" class="readout" role="status"></p>
+    </div>
+  </section>
+  <section class="lab-explain" id="research"><h2>原理与研究练习</h2><p>复核量由两组的 TP+FP 相加。超出名额时，页面仍报告策略提出的全部复核请求，真实分配还需要另定排队规则。组间召回差是两组召回率的绝对差。合成偏移可由 B 线降低 18 个百分点抵消；真实场景中，各组可能同时有不同的基率、噪声或排序质量。</p><p>在验证集比较阈值候选，再留出新批次报告每组漏报、误报、复核量和区间。群体指标的选择取决于任务与约束，本实验展示如何测量取舍。</p><p><a href="https://papers.nips.cc/paper/6374-equality-of-opportunity-in-supervised-learning">Hardt 等 · Equality of Opportunity in Supervised Learning</a></p></section>
+  <nav class="actions" aria-label="课间导航"><a href="../classification-curves/index.html">上一课</a><a href="../index.html#evaluation">分类评估目录</a><a class="primary" id="next-lesson" href="../moe/index.html">下一课 · 稀疏 MoE</a></nav>
+</main></body>
+</html>

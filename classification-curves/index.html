@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="上一课只看一个阈值。这里把所有阈值扫一遍，比较同一组分数在两种缺陷基率下怎样形成 ROC 和 PR 曲线。">
+  <title>ROC、PR 与类别不平衡 · Model Mechanics</title>
+  <link rel="stylesheet" href="../course.css"><link rel="stylesheet" href="../workbench/lab.css">
+  <script defer src="../common.js"></script><script defer src="../workbench/model.js"></script><script defer src="../workbench/demo.js"></script>
+</head>
+<body data-lab="classification-curves"><main>
+  <nav class="top" id="course-nav" aria-label="课程导航"></nav>
+  <h1>同一个模型，为什么 ROC 与 PR 的结论不同？</h1><p class="intro">上一课只看一个阈值。这里把所有阈值扫一遍，比较同一组分数在两种缺陷基率下怎样形成 ROC 和 PR 曲线。</p>
+  <section class="panel" aria-labelledby="try-title">
+    <h2 id="try-title">先做一个对照</h2><p>拖动阈值看曲线上的工作点。再把阴性样本的权重从 1 调到 9，模拟缺陷率从 50% 降到 10%。注意哪张图上的工作点变化了。</p>
+    <noscript><p class="readout">启用 JavaScript 可操作实验。下方原理与文献可直接阅读。</p></noscript>
+    <div id="experiment" hidden>
+      <div class="lab-settings">
+        <label for="cutoff"><span>阈值</span><output for="cutoff" data-unit="%"></output><input type="range" id="cutoff" min="0" max="100" step="5" value="60"></label>
+        <label for="negative-weight"><span>阴性样本权重</span><output for="negative-weight" data-unit="×"></output><input type="range" id="negative-weight" min="1" max="19" step="1" value="9"></label>
+      </div>
+      <div id="visual" class="lab-visual"></div>
+      <p id="result" class="readout" role="status"></p>
+    </div>
+  </section>
+  <section class="lab-explain" id="research"><h2>原理与研究练习</h2><p>ROC 的横轴是误报率 FP/(FP+TN)，纵轴是召回率 TP/(TP+FN)。PR 用同一个召回率作横轴，纵轴改成精确率 TP/(TP+FP)。本实验等比例重复阴性样本，模型的类内得分分布和排序保持不变。因此 ROC 不变，PR 会随误报占送检量的比例移动。</p><p>扫阈值时把同分样本一起纳入。ROC AUC 用梯形积分，AP（平均精确率）按召回率增量加权，各段使用下一个阈值的精确率。实际评估要分别报告目标场景的基率、需要的工作点和不确定区间。</p><p><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0118432">Saito 与 Rehmsmeier · ROC 与 PR 在不平衡数据上的表现</a></p></section>
+  <nav class="actions" aria-label="课间导航"><a href="../threshold/index.html">上一课</a><a href="../index.html#evaluation">分类评估目录</a><a class="primary" id="next-lesson" href="../review-budget/index.html">下一课 · 分组误差与复核预算</a></nav>
+</main></body>
+</html>

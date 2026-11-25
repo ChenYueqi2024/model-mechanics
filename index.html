@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Model Mechanics · 机器学习交互实验</title><link rel="stylesheet" href="course.css"></head>
 <body><main>
-<nav class="top" aria-label="主导航"><a href="index.html">Model Mechanics</a><a href="https://github.com/ChenYueqi2024/model-mechanics">GitHub 源码</a></nav>
+<nav class="top" aria-label="主导航"><a href="index.html">Model Mechanics</a><div><a href="/explore/#security">网络与信息安全专题</a><a href="https://github.com/ChenYueqi2024/model-mechanics">GitHub 源码</a></div></nav>
 <div class="hero"><div><h1>动手拆解机器学习</h1>
-<p>26 个可直接动手的实验，从语言和视觉表征走到训练、分类评估、稀疏计算、图结构与序列决策。</p>
+<p>28 个可直接动手的实验，从语言和视觉表征走到训练、分类评估、稀疏计算、图结构与序列决策。</p>
 <a class="primary" href="bpe/index.html">从语言分词开始</a> <a href="patch/index.html">从视觉实验进入</a></div>
 <div class="swatches" aria-hidden="true" id="swatches"></div></div>
 <nav class="controls" aria-label="按章节浏览"><a href="#language">语言模型</a><a href="#vision">视觉与图文</a><a href="#training">训练与泛化</a><a href="#evaluation">分类评估</a><a href="#routing">专家路由</a><a href="#graphs">图神经网络</a><a href="#decisions">强化学习</a></nav>
@@ -29,8 +29,10 @@
 <a class="tile" href="curriculum/index.html"><img class="catalog-figure" src="illustrations/curriculum.webp" alt="同一批样本以三种不同难度顺序进入训练" width="720" height="380" loading="lazy" decoding="async"><h3>同一套题，先易后难会学得更好吗？</h3><b>课程学习</b><p>在相同样本数下比较先易、先难和交错三种训练顺序。</p></a>
 <a class="tile" href="generalization/index.html"><img class="catalog-figure" src="illustrations/generalization.webp" alt="训练曲线和验证曲线随模型拟合程度分开" width="720" height="380" loading="lazy" decoding="async"><h3>训练题全答对，新题也能答对吗？</h3><b>泛化与过拟合</b><p>改变邻居数，核对一张错标签怎样影响训练成绩和留出成绩。</p></a>
 </div></section>
-<section class="chapter" id="evaluation"><h2>分类评估与决策阈值</h2><p>固定同一个模型的分数，检查分类阈值、误报和漏报怎样改变实际代价。</p><div class="shelf">
+<section class="chapter" id="evaluation"><h2>分类评估与决策阈值</h2><p>先挑一个操作阈值，再扫过整条 ROC／PR 曲线，最后在分组误差与复核预算之间做取舍。</p><div class="shelf">
 <a class="tile" href="threshold/index.html"><img class="catalog-figure" src="illustrations/threshold.webp" alt="两个类别的分数分布被一条竖直阈值线分开" width="720" height="380" loading="lazy" decoding="async"><h3>模型分数多少才放行？</h3><b>分类阈值与代价</b><p>拖动阈值，比较误报、漏报与精确率；再改变阳性基率，检查同一阈值的部署结果。</p></a>
+<a class="tile" href="classification-curves/index.html"><img class="catalog-figure" src="illustrations/classification-curves.webp" alt="两种阳性基率的 ROC 曲线重合，而两条 PR 曲线分开" width="720" height="380" loading="lazy" decoding="async"><h3>同一个模型，为什么 ROC 与 PR 的结论不同？</h3><b>ROC、PR 与类别不平衡</b><p>固定模型得分，扫描阈值并改变阳性基率，对照误报率、召回率和精确率。</p></a>
+<a class="tile" href="review-budget/index.html"><img class="catalog-figure" src="illustrations/review-budget.webp" alt="两条产线按不同阈值送检，待复核数量与人工名额对照" width="720" height="380" loading="lazy" decoding="async"><h3>同一个阈值，为什么两条产线的漏检差这么多？</h3><b>分组误差与复核预算</b><p>比较统一与分组阈值，检查召回差距缩小后，待复核数量会不会超出预算。</p></a>
 </div></section>
 <section class="chapter" id="routing"><h2>稀疏计算与专家路由</h2><p>从选择专家、分配容量到减少注意力连接，分别观察稀疏计算的收益与代价。</p><div class="shelf">
 <a class="tile" href="moe/index.html"><img class="catalog-figure" src="illustrations/moe.webp" alt="一个 token 的路由器只激活少数专家" width="720" height="380" loading="lazy" decoding="async"><h3>每个 token 都需要经过所有专家吗？</h3><b>稀疏 MoE</b><p>调节路由偏置和 top-k，观察门权重、专家输出与负载。</p></a>

@@ -58,6 +58,65 @@
     return row;
   }
 
+  function curvePlot(title, verticalLabel, horizontalLabel, traces, baseline, stair = false) {
+    const figure = element('figure', undefined, 'lab-curve');
+    const canvas = element('canvas');
+    canvas.width = 400;
+    canvas.height = 250;
+    canvas.setAttribute('role', 'img');
+    canvas.setAttribute('aria-label', title + '，横轴' + horizontalLabel + '，纵轴' + verticalLabel);
+    const ctx = canvas.getContext('2d');
+    const x = value => 42 + value * 330;
+    const y = value => 196 - value * 155;
+    ctx.fillStyle = '#f2f7f5';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#385853';
+    ctx.font = '13px system-ui';
+    for (const tick of [0, 0.25, 0.5, 0.75, 1]) {
+      ctx.strokeStyle = '#cadad5';
+      ctx.beginPath();
+      ctx.moveTo(x(tick), y(0));
+      ctx.lineTo(x(tick), y(1));
+      ctx.moveTo(x(0), y(tick));
+      ctx.lineTo(x(1), y(tick));
+      ctx.stroke();
+      ctx.fillText(String(100 * tick), x(tick) - 8, 214);
+      ctx.fillText(String(100 * tick), 10, y(tick) + 4);
+    }
+    ctx.fillText(verticalLabel + ' %', 42, 25);
+    ctx.fillText(horizontalLabel + ' %', 172, 236);
+    ctx.strokeStyle = '#728b84';
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(x(0), y(baseline ? baseline[0] : 0));
+    ctx.lineTo(x(1), y(baseline ? baseline[1] : 1));
+    ctx.stroke();
+    for (const {points, shown, color, dashed} of traces) {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2.8;
+      ctx.setLineDash(dashed ? [7, 3] : []);
+      ctx.beginPath();
+      ctx.moveTo(x(points[0][0]), y(points[0][1]));
+      points.slice(1).forEach(([px, py], index) => {
+        if (stair) ctx.lineTo(x(points[index][0]), y(py));
+        ctx.lineTo(x(px), y(py));
+      });
+      ctx.stroke();
+      if (shown[1] !== null) {
+        ctx.setLineDash([]);
+        ctx.beginPath();
+        ctx.arc(x(shown[0]), y(shown[1]), 5, 0, 2 * Math.PI);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+    }
+    figure.append(element('figcaption', title), canvas);
+    return figure;
+  }
+
   const experiments = {
     threshold() {
       const cutoff = number('cutoff');
@@ -82,6 +141,43 @@
       ]);
       draw([legend, plot, counts], '精确率 ' + pct(report.precision) + ' · 召回率 ' + pct(report.recall) +
         ' · 每件平均成本 ' + fmt(report.cost) + '。');
+    },
+    'classification-curves'() {
+      const cutoff = number('cutoff');
+      const weight = number('negative-weight');
+      const a = model.scoreCurves(1), b = model.scoreCurves(weight);
+      const aPoint = model.scorePoint(cutoff, 1), bPoint = model.scorePoint(cutoff, weight);
+      const roc = {points: a.points.map(p => [p.fpr, p.recall]), shown: [aPoint.fpr, aPoint.recall], color: '#087569'};
+      const pr = (curve, point, color, dashed) => ({
+        points: curve.points.map(p => [p.recall, p.precision ?? 1]), shown: [point.recall, point.precision], color, dashed
+      });
+      const plots = element('div', undefined, 'duo');
+      plots.append(curvePlot('ROC · 两组重合', '召回率', '误报率', [roc], null),
+        curvePlot('PR · 比较两种基率', '精确率', '召回率',
+          [pr(a, aPoint, '#087569', false), pr(b, bPoint, '#a35b30', true)], [1 / (weight + 1), 1 / (weight + 1)], true));
+      const stats = table('阈值读数', ['场景', '阳性基率', '误报率', '召回率', '精确率', 'AP'], [
+        ['原样本', pct(0.5), pct(aPoint.fpr), pct(aPoint.recall), pct(aPoint.precision), pct(a.ap)],
+        ['调整权重', pct(1 / (weight + 1)), pct(bPoint.fpr), pct(bPoint.recall), pct(bPoint.precision), pct(b.ap)]
+      ]);
+      draw([element('p', '绿色实线 · 原样本　橙色虚线 · 调整权重　圆点 · 当前阈值。PR 的灰色水平线表示调整后的阳性基率。', 'muted'), plots, stats],
+        'ROC AUC 均为 ' + a.auc.toFixed(3) + '。AP 从 ' + pct(a.ap) + ' 变为 ' + pct(b.ap) +
+        '；当前阈值的精确率从 ' + pct(aPoint.precision) + ' 变为 ' + pct(bPoint.precision) + '。');
+    },
+    'review-budget'() {
+      const separate = value('mode') === 'separate';
+      id('cutoff-b').disabled = !separate;
+      const cutoffA = number('cutoff-a');
+      const cutoffB = separate ? number('cutoff-b') : cutoffA;
+      const budget = number('budget');
+      const report = model.reviewBudget(cutoffA, cutoffB, budget);
+      const groupRows = [[report.a, 'A', cutoffA], [report.b, 'B', cutoffB]].map(([group, name, cutoff]) => [
+        name, cutoff + '%', pct(group.recall), group.fn, group.fp, group.tp + group.fp
+      ]);
+      draw([table('分组误差', ['产线', '阈值', '召回率', '漏报', '误报', '待复核'], groupRows),
+        meter('待复核件数', report.reviews, 80, report.reviews + '/80'),
+        meter('人工名额', budget, 80, budget + '/80')],
+        '召回差距 ' + (report.recallGap * 100).toFixed(1) + ' 个百分点。提出复核 ' + report.reviews +
+        ' 件，名额 ' + budget + ' 件。' + (report.over ? '超出 ' + report.over + ' 件。' : '本批名额足够。'));
     },
     'moe-capacity'() {
       const report = model.routeTokens(fraction('skew'), number('capacity'), value('overflow') === 'reroute');

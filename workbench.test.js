@@ -57,3 +57,25 @@ test('unsupported and underobserved actions can lead to optimistic choices', () 
   assert.equal(lab.offline('rare', 3, 0.95).selected.name, 'B');
   assert.equal(lab.offline('covered', 0, 0.95).selected.name, 'B');
 });
+
+test('duplicating negative samples changes PR while preserving the ROC points', () => {
+  const balanced = lab.scoreCurves(1);
+  const rare = lab.scoreCurves(9);
+  assert.deepEqual(balanced.points.map(p => [p.fpr, p.recall]), rare.points.map(p => [p.fpr, p.recall]));
+  assert.equal(balanced.auc, rare.auc);
+  assert.ok(rare.ap < balanced.ap);
+  assert.deepEqual(rare.points.at(-1).precision, 0.1);
+  assert.equal(rare.points.at(-1).recall, 1);
+});
+
+test('matching recall after a synthetic score shift can exceed a review quota', () => {
+  const shared = lab.reviewBudget(65, 65, 26);
+  const separate = lab.reviewBudget(65, 47, 26);
+  assert.equal(shared.reviews, 23);
+  assert.equal(shared.over, 0);
+  assert.ok(Math.abs(shared.recallGap - 0.35) < 1e-12);
+  assert.equal(separate.recallGap, 0);
+  assert.equal(separate.reviews, 32);
+  assert.equal(separate.over, 6);
+  assert.equal(lab.reviewBudget(0, 0, 80).reviews, 80);
+});
