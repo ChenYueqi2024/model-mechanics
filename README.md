@@ -2,7 +2,7 @@
 
 从语言 token 开始，沿着 Transformer、图像 patch 和 ViT，再进入训练、路由、图结构和决策。十九个实验可独立打开。[语言入口](https://chenyueqi2024.github.io/model-mechanics/bpe/) · [视觉入口](https://chenyueqi2024.github.io/model-mechanics/patch/)
 
-## 从语言开始
+## 语言模型基础
 
 从字符拼出 token，再观察可见上下文、采样概率与 Transformer 块。
 
@@ -11,9 +11,9 @@
 - [温度与采样](https://chenyueqi2024.github.io/model-mechanics/sampling/) · 沿用查询输出，固定随机数，比较温度和 top-p 怎样改变抽样频率。
 - [Transformer 块](https://chenyueqi2024.github.io/model-mechanics/transformer/) · 沿着一个语言 token 核对注意力、残差连接和前馈层的贡献。
 
-## 把 Transformer 用在图像上
+## 视觉与图文表征
 
-将输入换成图块，追踪同一计算块怎样汇总图像；随后比较局部卷积和池化。
+把图像切成图块，比较注意力、卷积和池化怎样提取特征，最后用图文检索连接像素与描述。
 
 - [Patch Lens](https://chenyueqi2024.github.io/model-mechanics/patch/) · 在同一张图上切换颜色和纹理投影，寻找一个图块的最近邻。
 - [Self-attention](https://chenyueqi2024.github.io/model-mechanics/attention/) · 沿用所选图块，只改一个 V 分量，核对它对输出的贡献。
@@ -23,7 +23,7 @@
 - [池化与平移](https://chenyueqi2024.github.io/model-mechanics/pooling/) · 移动上一课的图像，比较最大池化与平均池化保留的局部信息。
 - [图文检索](https://chenyueqi2024.github.io/model-mechanics/retrieval/) · 让四条描述竞争同一张图，错配训练标签，观察排名怎样改变。
 
-## 模型怎样从数据学习
+## 监督学习与泛化
 
 给样本加上标签，比较梯度、批量、样本难度顺序和新样本表现。
 
@@ -33,13 +33,21 @@
 - [课程学习](https://chenyueqi2024.github.io/model-mechanics/curriculum/) · 在相同样本数下比较先易、先难和交错三种训练顺序。
 - [泛化与过拟合](https://chenyueqi2024.github.io/model-mechanics/generalization/) · 改变邻居数，核对一张错标签怎样影响训练成绩和留出成绩。
 
-## 扩展 · 路由、图与决策
+## 稀疏计算与专家路由
 
-改变专家的选择、图上的连接或行动的奖励，分别观察计算怎样改变。
+继 Transformer 的前馈层之后，看稀疏 MoE 如何为每个 token 分配计算。
 
 - [稀疏 MoE](https://chenyueqi2024.github.io/model-mechanics/moe/) · 调节路由偏置和 top-k，观察门权重、专家输出与负载。
+## 图结构与消息传递
+
+当关系由图上的边定义时，观察信息怎样沿边传播。
+
 - [图神经网络](https://chenyueqi2024.github.io/model-mechanics/gnn/) · 逐层传播信号，加入一条捷径并检验邻居的贡献。
-- [强化学习专题](https://chenyueqi2024.github.io/model-mechanics/rl/) · 对照两种老虎机策略，逐步回放 Q-learning，再试着让代理奖励和真实目标产生偏差。
+## 强化学习与序列决策
+
+从状态、动作、奖励和策略的定义出发，理解怎样学习一连串决策。
+
+- [强化学习专题](https://chenyueqi2024.github.io/model-mechanics/rl/) · 手算折扣回报，对照两种多臂老虎机策略，逐步回放 Q-learning，再比较代理奖励和真实目标。
 
 ## 跨课实验
 

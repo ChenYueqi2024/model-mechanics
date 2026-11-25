@@ -11,5 +11,14 @@
 .rl-bar progress {width:100%;height:1.05rem}
 .rl-bar span:last-child {text-align:right;font-variant-numeric:tabular-nums}
 .rl-reading .panel {height:100%;overflow-wrap:anywhere}
+.rl-glossary {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.rl-glossary>div {padding:9px 12px;background:#e7efe9;border:1px solid var(--rule);border-radius:8px}
+.rl-glossary dt {font-weight:750}
+.rl-glossary dd {margin:2px 0 0}
+.rl-route {display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.rl-route span {padding:3px 7px;border-radius:5px;background:#deebe5;font-variant-numeric:tabular-nums}
+.rl-route b {color:#44625a}
+.rl-return-table {max-width:38rem}
+@media(max-width:650px){.rl-glossary{grid-template-columns:1fr}}
 @media(max-width:370px){.rl-bar {grid-template-columns:minmax(5.7rem,1.4fr) minmax(30px,1fr) 3.3rem}.rl-section .controls input[type=range]{display:block;margin:4px 0}}
 

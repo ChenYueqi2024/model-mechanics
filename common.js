@@ -1,9 +1,11 @@
 const Course = (() => {
   const sections = [
-    ['从语言开始', [['bpe', 'BPE 分词'], ['causal', '因果掩码'], ['sampling', '温度与采样'], ['transformer', 'Transformer 块']]],
-    ['把 Transformer 用在图像上', [['patch', 'Patch Lens'], ['attention', 'Self-attention'], ['position', '二维位置编码'], ['vit', 'Vision Transformer'], ['convolution', '卷积与边缘'], ['pooling', '池化与平移'], ['retrieval', '图文检索']]],
-    ['模型怎样从数据学习', [['supervised', '监督学习'], ['gradient', '反向传播'], ['minibatch', '小批量梯度'], ['curriculum', '课程学习'], ['generalization', '泛化与过拟合']]],
-    ['扩展 · 路由、图与决策', [['moe', '稀疏 MoE'], ['gnn', '图神经网络'], ['rl', '强化学习']]]
+    ['语言模型基础', [['bpe', 'BPE 分词'], ['causal', '因果掩码'], ['sampling', '温度与采样'], ['transformer', 'Transformer 块']]],
+    ['视觉与图文表征', [['patch', 'Patch Lens'], ['attention', 'Self-attention'], ['position', '二维位置编码'], ['vit', 'Vision Transformer'], ['convolution', '卷积与边缘'], ['pooling', '池化与平移'], ['retrieval', '图文检索']]],
+    ['监督学习与泛化', [['supervised', '监督学习'], ['gradient', '反向传播'], ['minibatch', '小批量梯度'], ['curriculum', '课程学习'], ['generalization', '泛化与过拟合']]],
+    ['稀疏计算与专家路由', [['moe', '稀疏 MoE']]],
+    ['图结构与消息传递', [['gnn', '图神经网络']]],
+    ['强化学习与序列决策', [['rl', '强化学习']]]
   ];
   const id = name => document.getElementById(name);
   function mount(current) {

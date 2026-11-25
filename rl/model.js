@@ -15,6 +15,31 @@ const GridLab = (() => {
     return result;
   }
   const edges = Array.from({ length: width * height }, (_, s) => options(s));
+  function shortestPath(goal) {
+    const queue = [[start]];
+    const visited = new Set([start]);
+    for (let i = 0; i < queue.length; i++) {
+      const path = queue[i];
+      const position = path.at(-1);
+      if (position === goal) return path;
+      for (const { next } of edges[position]) {
+        if (visited.has(next)) continue;
+        visited.add(next);
+        queue.push([...path, next]);
+      }
+    }
+  }
+  const referencePaths = { near: shortestPath(near), far: shortestPath(far) };
+  const rewardAt = (position, cost) => (position === near ? 2 : position === far ? 8 : 0) - cost;
+
+  function routeSteps(path, cost, discount) {
+    return path.slice(1).map((position, index) => {
+      const reward = rewardAt(position, cost);
+      const weight = discount ** index;
+      return { reward, weight, contribution: reward * weight };
+    });
+  }
+
   function bestMoves(q, s) {
     const best = Math.max(...edges[s].map(({ a }) => q[4 * s + a]));
     return edges[s].filter(({ a }) => q[4 * s + a] === best);
@@ -36,7 +61,7 @@ const GridLab = (() => {
         const explore = random() < (episode <= warmup ? 1 : epsilon);
         const choices = explore ? edges[s] : bestMoves(q, s);
         const { a, next } = choices[Math.floor(random() * choices.length)];
-        const reward = (next === near ? 2 : next === far ? 8 : 0) - cost;
+        const reward = rewardAt(next, cost);
         const future = terminal(next) ? 0 : Math.max(...edges[next].map(e => q[next * 4 + e.a]));
         const old = q[s * 4 + a];
         const target = reward + discount * future;
@@ -127,6 +152,6 @@ const GridLab = (() => {
   }
 
   return { width, height, start, near, far, wall, arrows, alpha, gamma, edges, bestMoves, train, tableAt, route,
-    discountedReturn, banditProbabilities, compareBandits, responseTypes, optimizeReward };
+    referencePaths, routeSteps, discountedReturn, banditProbabilities, compareBandits, responseTypes, optimizeReward };
 })();
 if (typeof module !== 'undefined') module.exports = GridLab;

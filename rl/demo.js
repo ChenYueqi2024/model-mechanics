@@ -42,8 +42,8 @@ function render() {
   id('route').textContent = route.loop ? '当前策略在到达终点前形成了循环。' :
     `依当前策略，从起点走 ${route.path.length - 1} 步抵达${destination === near ? '近' : '远'}处终点。`;
   const state = event?.s ?? start;
-  const nearReturn = GridLab.discountedReturn(cost, discount, 1, 2);
-  const farReturn = GridLab.discountedReturn(cost, discount, 6, 8);
+  const nearReturn = GridLab.discountedReturn(cost, discount, GridLab.referencePaths.near.length - 1, 2);
+  const farReturn = GridLab.discountedReturn(cost, discount, GridLab.referencePaths.far.length - 1, 8);
   id('route-reference').textContent = '已知地图参考 · 近处 ' + fmt(nearReturn) + '，远处 ' + fmt(farReturn) +
     (route.loop ? '。当前路线有循环，未获得终点奖励。' : '。当前路线回报 ' +
       fmt(GridLab.discountedReturn(cost, discount, route.path.length - 1, destination === near ? 2 : 8)) + '。');
@@ -88,6 +88,48 @@ function compareSettings() {
 }
 for (const field of ['cost', 'gamma', 'grid-epsilon', 'warmup']) id(field).onchange = compareSettings;
 render();
+
+function renderReturns() {
+  const discount = Number(id('return-discount').value);
+  const route = id('return-route').value;
+  const { near, far } = GridLab.referencePaths;
+  const path = GridLab.referencePaths[route];
+  const cost = 0.1;
+  const total = reference => GridLab.routeSteps(reference, cost, discount)
+    .reduce((sum, item) => sum + item.contribution, 0);
+  const short = total(near), long = total(far);
+  id('return-discount-value').value = discount.toFixed(2);
+  id('return-comparison').textContent = '从起点算回报 · 近路 ' + fmt(short) + '，远路 ' + fmt(long) +
+    '。在这个折扣下，' + (short === long ? '两条路线回报相同。' : short > long ? '近路得分更高。' : '远路得分更高。');
+  const trace = [];
+  path.forEach((position, index) => {
+    if (index) {
+      const direction = edges[path[index - 1]].find(option => option.next === position).a;
+      const arrow = document.createElement('b');
+      arrow.textContent = arrows[direction];
+      trace.push(arrow);
+    }
+    const cell = document.createElement('span');
+    cell.textContent = index === 0 ? '起点 ' + nameOf(position) :
+      position === path.at(-1) ? '终点 ' + nameOf(position) : nameOf(position);
+    trace.push(cell);
+  });
+  id('route-trace').replaceChildren(...trace);
+
+  const rows = GridLab.routeSteps(path, cost, discount).map(({reward, weight, contribution}, index) => {
+    const row = document.createElement('tr');
+    for (const value of [index + 1, reward.toFixed(1), fmt(weight), fmt(contribution)]) {
+      row.insertCell().textContent = value;
+    }
+    return row;
+  });
+  id('return-steps').replaceChildren(...rows);
+}
+
+id('return-route').addEventListener('change', renderReturns);
+id('return-discount').addEventListener('input', renderReturns);
+renderReturns();
+id('return-lab').hidden = false;
 
 function compareCard(title, items, fractions, summary) {
   const card = document.createElement('article');

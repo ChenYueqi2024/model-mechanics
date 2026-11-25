@@ -100,3 +100,22 @@ test('emphasizing the proxy favors formatting at the cost of independent correct
   assert.ok(proxy.format > baseline.format);
   assert.ok(proxy.accuracy < baseline.accuracy);
 });
+
+test('the return trace follows legal shortest paths and matches the gridworld return', () => {
+  for (const [key, goal, steps, bonus] of [['near', rl.near, 1, 2], ['far', rl.far, 6, 8]]) {
+    const path = rl.referencePaths[key];
+    assert.equal(path[0], rl.start);
+    assert.equal(path.at(-1), goal);
+    assert.equal(path.length - 1, steps);
+    for (let i = 1; i < path.length; i++) {
+      assert.ok(rl.edges[path[i - 1]].some(move => move.next === path[i]));
+    }
+    for (const discount of [0, 0.5, 0.95, 1]) {
+      const pieces = rl.routeSteps(path, 0.1, discount);
+      close(pieces[0].weight, 1);
+      close(pieces.at(-1).reward, bonus - 0.1);
+      close(pieces.reduce((sum, part) => sum + part.contribution, 0),
+        rl.discountedReturn(0.1, discount, steps, bonus));
+    }
+  }
+});
