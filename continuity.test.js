@@ -82,7 +82,7 @@ test('training and held-out reports count separate observations and expose the n
 });
 
 test('the static catalog and every forward lesson link agree on the learning path', () => {
-  const order = ['bpe','causal','sampling','transformer','patch','attention','position','vit','convolution','pooling','retrieval','supervised','gradient','minibatch','curriculum','generalization','moe','gnn','rl'];
+  const order = ['bpe','causal','sampling','transformer','patch','attention','position','vit','convolution','pooling','retrieval','supervised','gradient','minibatch','curriculum','generalization','threshold','moe','moe-capacity','sparse-attention','gnn','graph-aggregation','graph-depth','rl','rl-value','rl-offline'];
   const read = name => fs.readFileSync(path.join(__dirname,name),'utf8');
   const cards = [...read('index.html').matchAll(/class="tile" href="([^/]+)\/index.html"/g)].map(m=>m[1]);
   assert.deepEqual(cards,order);

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="把 token 挤向同一个专家，比较容量限制、改派与未处理量。">
+  <title>专家容量与负载 · Model Mechanics</title>
+  <link rel="stylesheet" href="../course.css"><link rel="stylesheet" href="../workbench/lab.css">
+  <script defer src="../common.js"></script><script defer src="../workbench/model.js"></script><script defer src="../workbench/demo.js"></script>
+</head>
+<body data-lab="moe-capacity"><main>
+  <nav class="top" id="course-nav" aria-label="课程导航"></nav>
+  <h1>专家排满以后，token 去哪儿？</h1><p class="intro">路由器为 token 选专家，专家却可能只有固定的处理容量。用 12 个 token 和 3 名专家看看：即使总空位足够，一位专家也可能先被挤满。</p>
+  <section class="panel" aria-labelledby="try-title">
+    <h2 id="try-title">先做一个对照</h2><p>先提高首选集中度，让大多数 token 都首选 A。对比「留作未处理」和「尝试改派」，再把每位专家的容量缩到 3，观察改派还能救回多少。</p>
+    <noscript><p class="readout">启用 JavaScript 可操作实验。下方原理与文献可直接阅读。</p></noscript>
+    <div id="experiment" hidden>
+      <div class="lab-settings"><label for="skew"><span>首选集中度</span><output for="skew" data-unit="%"></output><input type="range" id="skew" min="0" max="100" step="5" value="75"></label>
+        <label for="capacity"><span>每位专家的容量</span><output for="capacity" data-unit=""></output><input type="range" id="capacity" min="1" max="8" step="1" value="4"></label>
+        <label for="overflow"><span>首选已满时</span><select id="overflow"><option value="drop">留作未处理</option><option value="reroute">尝试改派</option></select></label></div>
+      <div id="visual" class="lab-visual"></div>
+      <p id="result" class="readout" role="status"></p>
+    </div>
+  </section>
+  <section class="lab-explain" id="research"><h2>原理与研究练习</h2><p>每个 token 有确定的首选和备选顺序，按输入顺序处理。每位专家都只能接收指定数量。改派模式在首选已满时查找下一位有空位的专家。这个简化规则忽略专家输出质量、专家间通信与批大小变化。</p><p>Switch Transformer 展示了 top-1 路由、容量与负载均衡的关系。改变输入批次分布时，可同时记录未处理比例、专家利用率和实际任务质量。</p><p><a href="https://arxiv.org/abs/2101.03961">Fedus 等 · Switch Transformers</a></p></section>
+  <nav class="actions" aria-label="课间导航"><a href="../moe/index.html">上一课</a><a href="../index.html">全部课程</a><a class="primary" id="next-lesson" href="../sparse-attention/index.html">下一课 · 稀疏注意力</a></nav>
+</main></body>
+</html>

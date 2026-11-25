@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="对比全连接、局部窗口和锚点，用多层可达性观察减少配对计算的代价。">
+  <title>稀疏注意力 · Model Mechanics</title>
+  <link rel="stylesheet" href="../course.css"><link rel="stylesheet" href="../workbench/lab.css">
+  <script defer src="../common.js"></script><script defer src="../workbench/model.js"></script><script defer src="../workbench/demo.js"></script>
+</head>
+<body data-lab="sparse-attention"><main>
+  <nav class="top" id="course-nav" aria-label="课程导航"></nav>
+  <h1>少连几条边，远处 token 还能被看到吗？</h1><p class="intro">因果注意力只能读当前或更早的 token。全因果注意力保留所有允许的连接；滑动窗口只保留近邻。叠多层以后，一个位置可以通过中间位置间接收到更早的信息。</p>
+  <section class="panel" aria-labelledby="try-title">
+    <h2 id="try-title">先做一个对照</h2><p>把模式切到局部窗口，宽度设为 3、深度设为 1。再把深度增到 4，或换成「窗口 + 锚点」，比较最后一个 token 能接收哪些来源。</p>
+    <noscript><p class="readout">启用 JavaScript 可操作实验。下方原理与文献可直接阅读。</p></noscript>
+    <div id="experiment" hidden>
+      <div class="lab-settings"><label for="mask"><span>连接方式</span><select id="mask"><option value="local">局部窗口</option><option value="anchors">窗口 + 锚点</option><option value="full">全因果注意力</option></select></label>
+        <label for="window"><span>窗口宽度（含自己）</span><output for="window" data-unit=""></output><input type="range" id="window" min="1" max="6" step="1" value="3"></label>
+        <label for="layers"><span>堆叠层数</span><output for="layers" data-unit=""></output><input type="range" id="layers" min="1" max="6" step="1" value="1"></label></div>
+      <div id="visual" class="lab-visual"></div>
+      <p id="result" class="readout" role="status"></p>
+    </div>
+  </section>
+  <section class="lab-explain" id="research"><h2>原理与研究练习</h2><p>矩阵的行是查询，列是可能读取的位置。绿色格子代表单层允许的一对。锚点设在第 4、8、12 个位置，普通查询可以读更早的锚点，锚点查询可读整个过去。多层追踪只计算图上的可达性。真实注意力权重和表示内容还会决定信息是否被保留。</p><p>Longformer 展示了局部与全局注意力的组合；这里用因果约束做简化。实验计的是查询–键配对数，实际延迟还取决于实现。可以在固定窗口下比较不同锚点布局。</p><p><a href="https://arxiv.org/abs/2004.05150">Beltagy 等 · Longformer</a></p></section>
+  <nav class="actions" aria-label="课间导航"><a href="../moe-capacity/index.html">上一课</a><a href="../index.html">全部课程</a><a class="primary" id="next-lesson" href="../gnn/index.html">下一课 · 图神经网络</a></nav>
+</main></body>
+</html>

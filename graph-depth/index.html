@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="逐层混合相邻特征，测量两组节点间的差距，再对比保留初始特征。">
+  <title>层数与过平滑 · Model Mechanics</title>
+  <link rel="stylesheet" href="../course.css"><link rel="stylesheet" href="../workbench/lab.css">
+  <script defer src="../common.js"></script><script defer src="../workbench/model.js"></script><script defer src="../workbench/demo.js"></script>
+</head>
+<body data-lab="graph-depth"><main>
+  <nav class="top" id="course-nav" aria-label="课程导航"></nav>
+  <h1>消息传得越远，节点就越好区分吗？</h1><p class="intro">左侧四个节点从 0 开始，右侧四个从 1 开始。每层把自己与邻居的值平均。多传几层以后，信息传播得更远，节点原本的差异会怎样？</p>
+  <section class="panel" aria-labelledby="try-title">
+    <h2 id="try-title">先做一个对照</h2><p>把层数从 0 提到 24，观察组间均值差。保持层数，加入 15% 的初始特征注入，看看能恢复多少差异。</p>
+    <noscript><p class="readout">启用 JavaScript 可操作实验。下方原理与文献可直接阅读。</p></noscript>
+    <div id="experiment" hidden>
+      <div class="lab-settings"><label for="depth"><span>传播层数</span><output for="depth" data-unit=""></output><input type="range" id="depth" min="0" max="30" step="1" value="12"></label>
+        <label for="residual"><span>每层注入初始特征</span><output for="residual" data-unit="%"></output><input type="range" id="residual" min="0" max="50" step="5" value="0"></label></div>
+      <div id="visual" class="lab-visual"></div>
+      <p id="result" class="readout" role="status"></p>
+    </div>
+  </section>
+  <section class="lab-explain" id="research"><h2>原理与研究练习</h2><p>这条链的每个节点只连前后相邻点，端点只有一个邻居。所有节点同步更新。每一层可将当前邻居平均与固定的初始特征按比例混合。这是对过平滑的可视演示，实际 GNN 还包含权重、非线性与训练目标。</p><p>比较不同图结构或聚合方式时，除了读节点差异，也需要测任务精度。研究里的过平滑与信息跨瓶颈受限是不同问题。</p><p><a href="https://arxiv.org/abs/1905.10947">Oono 与 Suzuki · 深层图网络的表达力</a></p></section>
+  <nav class="actions" aria-label="课间导航"><a href="../graph-aggregation/index.html">上一课</a><a href="../index.html">全部课程</a><a class="primary" id="next-lesson" href="../rl/index.html">下一课 · 强化学习基础</a></nav>
+</main></body>
+</html>

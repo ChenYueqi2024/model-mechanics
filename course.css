@@ -78,3 +78,7 @@ summary { cursor:pointer; font-weight:650; } details p:last-child {margin-bottom
 .frequency { display:grid; grid-template-columns:1.2em minmax(40px,1fr) 4.5em; gap:8px; align-items:center; font-variant-numeric:tabular-nums; }
 .frequency progress { width:100%; accent-color:#087569; }
 @media(max-width:650px){.duo,.shelf {grid-template-columns:1fr;} .hero {grid-template-columns:1fr; padding:28px 0 20px;} .swatches {display:none;} .actions {gap:8px;} .top>div {gap:6px 12px;} }
+
+.catalog-figure{display:block;width:100%;height:auto;aspect-ratio:720/380;border:1px solid #cfddde;border-radius:8px;margin-bottom:12px;background:#edf4f3}
+.chapter .tile:hover .catalog-figure{border-color:#86ada4}
+@media(min-width:980px){.chapter .shelf{grid-template-columns:repeat(3,minmax(0,1fr))}}

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="比较无覆盖、采样不足和补充覆盖，观察历史估值怎样影响策略选择。">
+  <title>离线强化学习与数据覆盖 · Model Mechanics</title>
+  <link rel="stylesheet" href="../course.css"><link rel="stylesheet" href="../workbench/lab.css">
+  <script defer src="../common.js"></script><script defer src="../workbench/model.js"></script><script defer src="../workbench/demo.js"></script>
+</head>
+<body data-lab="rl-offline"><main>
+  <nav class="top" id="course-nav" aria-label="课程导航"></nav>
+  <h1>历史日志里没走过的动作，能相信它的估值吗？</h1><p class="intro">这个单步教学例子用一份固定日志来选动作。学习者只看到历史尝试和奖励，真实成功概率留作独立对照。日志没有覆盖的动作会暴露估值假设。</p>
+  <section class="panel" aria-labelledby="try-title">
+    <h2 id="try-title">先做一个对照</h2><p>默认日志里 C 从没出现，但高缺省估值让策略选了 C。把最低支持设成 1，再换到「少量记录」。为什么两条全成功的记录仍可能误导策略？</p>
+    <noscript><p class="readout">启用 JavaScript 可操作实验。下方原理与文献可直接阅读。</p></noscript>
+    <div id="experiment" hidden>
+      <div class="lab-settings"><label for="log"><span>日志版本</span><select id="log"><option value="missing">C 没有记录</option><option value="rare">C 只有两条成功记录</option><option value="covered">三个动作均有覆盖</option></select></label>
+        <label for="support"><span>最少历史记录</span><output for="support" data-unit=""></output><input type="range" id="support" min="0" max="18" step="1" value="0"></label>
+        <label for="prior"><span>无记录时的缺省估值</span><output for="prior" data-unit="%"></output><input type="range" id="prior" min="0" max="100" step="5" value="95"></label></div>
+      <div id="visual" class="lab-visual"></div>
+      <p id="result" class="readout" role="status"></p>
+    </div>
+  </section>
+  <section class="lab-explain" id="research"><h2>原理与研究练习</h2><p>已出现动作的估值 = 历史成功次数 ÷ 尝试次数，未出现时用你设定的缺省值。策略在满足最低支持的动作中挑最高估值。真实成功率由教学环境设定，算法选动作时看不到它。最低支持阈值只是演示如何避免轻信稀疏日志。</p><p>离线 RL 的困难还包括多步状态分布变化。CQL 用保守价值估计处理数据外动作。在自己的实验中应同时报告日志覆盖、行为策略与留出评估表现。</p><p><a href="https://arxiv.org/abs/2006.04779">Kumar 等 · Conservative Q-Learning</a></p></section>
+  <nav class="actions" aria-label="课间导航"><a href="../rl-value/index.html">上一课</a><a href="../index.html">全部课程</a><a class="primary" href="../index.html#decisions">返回课程目录</a></nav>
+</main></body>
+</html>

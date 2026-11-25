@@ -3,40 +3,49 @@
 <body><main>
 <nav class="top" aria-label="主导航"><a href="index.html">Model Mechanics</a><a href="https://github.com/ChenYueqi2024/model-mechanics">GitHub 源码</a></nav>
 <div class="hero"><div><h1>动手拆解机器学习</h1>
-<p>十九个可直接动手的实验，从语言和视觉的输入表征，走到监督训练、专家路由、图消息传递与序列决策。</p>
+<p>26 个可直接动手的实验，从语言和视觉表征走到训练、分类评估、稀疏计算、图结构与序列决策。</p>
 <a class="primary" href="bpe/index.html">从语言分词开始</a> <a href="patch/index.html">从视觉实验进入</a></div>
 <div class="swatches" aria-hidden="true" id="swatches"></div></div>
-<nav class="controls" aria-label="按章节浏览"><a href="#language">语言模型</a><a href="#vision">视觉与图文</a><a href="#training">训练与泛化</a><a href="#routing">专家路由</a><a href="#graphs">图神经网络</a><a href="#decisions">强化学习</a></nav>
+<nav class="controls" aria-label="按章节浏览"><a href="#language">语言模型</a><a href="#vision">视觉与图文</a><a href="#training">训练与泛化</a><a href="#evaluation">分类评估</a><a href="#routing">专家路由</a><a href="#graphs">图神经网络</a><a href="#decisions">强化学习</a></nav>
 <section class="chapter" id="language"><h2>语言模型基础</h2><p>从字符拼出 token，再观察可见上下文、采样概率与 Transformer 块。</p><div class="shelf">
-<a class="tile" href="bpe/index.html"><h3>谁决定一个词从哪里切开？</h3><b>BPE 分词</b><p>从一个词或短句开始，逐轮学习合并规则，比较两种语料得到的切分。</p></a>
-<a class="tile" href="causal/index.html"><h3>预测下一个 token 时，能偷看答案吗？</h3><b>因果掩码</b><p>沿用上一课的分词结果，篡改未来 token，检查当前位置的输出。</p></a>
-<a class="tile" href="sampling/index.html"><h3>分数没变，为什么下一项会变？</h3><b>温度与采样</b><p>沿用查询输出，固定随机数，比较温度和 top-p 怎样改变抽样频率。</p></a>
-<a class="tile" href="transformer/index.html"><h3>注意力算完，一个 Transformer 块还做什么？</h3><b>Transformer 块</b><p>沿着一个语言 token 核对注意力、残差连接和前馈层的贡献。</p></a>
+<a class="tile" href="bpe/index.html"><img class="catalog-figure" src="illustrations/bpe.webp" alt="字符逐轮合并成更长的 token" width="720" height="380" loading="lazy" decoding="async"><h3>谁决定一个词从哪里切开？</h3><b>BPE 分词</b><p>从一个词或短句开始，逐轮学习合并规则，比较两种语料得到的切分。</p></a>
+<a class="tile" href="causal/index.html"><img class="catalog-figure" src="illustrations/causal.webp" alt="因果注意力矩阵只开放对角线及以下" width="720" height="380" loading="lazy" decoding="async"><h3>预测下一个 token 时，能偷看答案吗？</h3><b>因果掩码</b><p>沿用上一课的分词结果，篡改未来 token，检查当前位置的输出。</p></a>
+<a class="tile" href="sampling/index.html"><img class="catalog-figure" src="illustrations/sampling.webp" alt="同一组 token 分数在不同温度下形成两种概率分布" width="720" height="380" loading="lazy" decoding="async"><h3>分数没变，为什么下一项会变？</h3><b>温度与采样</b><p>沿用查询输出，固定随机数，比较温度和 top-p 怎样改变抽样频率。</p></a>
+<a class="tile" href="transformer/index.html"><img class="catalog-figure" src="illustrations/transformer.webp" alt="注意力与前馈层的计算路径有残差旁路" width="720" height="380" loading="lazy" decoding="async"><h3>注意力算完，一个 Transformer 块还做什么？</h3><b>Transformer 块</b><p>沿着一个语言 token 核对注意力、残差连接和前馈层的贡献。</p></a>
 </div></section>
 <section class="chapter" id="vision"><h2>视觉与图文表征</h2><p>把图像切成图块，比较注意力、卷积和池化怎样提取特征，最后用图文检索连接像素与描述。</p><div class="shelf">
-<a class="tile" href="patch/index.html"><h3>图像如何变成 token？</h3><b>Patch Lens</b><p>在同一张图上切换颜色和纹理投影，寻找一个图块的最近邻。</p></a>
-<a class="tile" href="attention/index.html"><h3>注意力不变，输出会变吗？</h3><b>Self-attention</b><p>沿用所选图块，只改一个 V 分量，核对它对输出的贡献。</p></a>
-<a class="tile" href="position/index.html"><h3>把图块搬走，它会知道吗？</h3><b>二维位置编码</b><p>同一个查询跟着图块移动，比较有无坐标时的注意力输出。</p></a>
-<a class="tile" href="vit/index.html"><h3>一个 [CLS] 怎样读完整张图？</h3><b>Vision Transformer</b><p>用语言课的同一个块处理图块，移除一个图块并比较整图读数。</p></a>
-<a class="tile" href="convolution/index.html"><h3>同一条边缘，旋转卷积核会怎样？</h3><b>卷积与边缘</b><p>改从局部窗口读位置，逐格编辑像素、核对九次乘法。</p></a>
-<a class="tile" href="pooling/index.html"><h3>边缘平移一格，压缩后的特征还一样吗？</h3><b>池化与平移</b><p>移动上一课的图像，比较最大池化与平均池化保留的局部信息。</p></a>
-<a class="tile" href="retrieval/index.html"><h3>像素怎么和一句话配对？</h3><b>图文检索</b><p>让四条描述竞争同一张图，错配训练标签，观察排名怎样改变。</p></a>
+<a class="tile" href="patch/index.html"><img class="catalog-figure" src="illustrations/patch.webp" alt="图像切分成小块，其中一块投影为向量" width="720" height="380" loading="lazy" decoding="async"><h3>图像如何变成 token？</h3><b>Patch Lens</b><p>在同一张图上切换颜色和纹理投影，寻找一个图块的最近邻。</p></a>
+<a class="tile" href="attention/index.html"><img class="catalog-figure" src="illustrations/attention.webp" alt="固定热力图的权重，改变一个 V 向量并观察输出" width="720" height="380" loading="lazy" decoding="async"><h3>注意力不变，输出会变吗？</h3><b>Self-attention</b><p>沿用所选图块，只改一个 V 分量，核对它对输出的贡献。</p></a>
+<a class="tile" href="position/index.html"><img class="catalog-figure" src="illustrations/position.webp" alt="同一图块移动到网格的不同坐标" width="720" height="380" loading="lazy" decoding="async"><h3>把图块搬走，它会知道吗？</h3><b>二维位置编码</b><p>同一个查询跟着图块移动，比较有无坐标时的注意力输出。</p></a>
+<a class="tile" href="vit/index.html"><img class="catalog-figure" src="illustrations/vit.webp" alt="CLS token 汇总来自多个图块的信息" width="720" height="380" loading="lazy" decoding="async"><h3>一个 [CLS] 怎样读完整张图？</h3><b>Vision Transformer</b><p>用语言课的同一个块处理图块，移除一个图块并比较整图读数。</p></a>
+<a class="tile" href="convolution/index.html"><img class="catalog-figure" src="illustrations/convolution.webp" alt="一个 3×3 卷积核滑过图像边缘" width="720" height="380" loading="lazy" decoding="async"><h3>同一条边缘，旋转卷积核会怎样？</h3><b>卷积与边缘</b><p>改从局部窗口读位置，逐格编辑像素、核对九次乘法。</p></a>
+<a class="tile" href="pooling/index.html"><img class="catalog-figure" src="illustrations/pooling.webp" alt="两块局部像素分别取最大值和均值" width="720" height="380" loading="lazy" decoding="async"><h3>边缘平移一格，压缩后的特征还一样吗？</h3><b>池化与平移</b><p>移动上一课的图像，比较最大池化与平均池化保留的局部信息。</p></a>
+<a class="tile" href="retrieval/index.html"><img class="catalog-figure" src="illustrations/retrieval.webp" alt="文字描述与图像特征组成相似度矩阵" width="720" height="380" loading="lazy" decoding="async"><h3>像素怎么和一句话配对？</h3><b>图文检索</b><p>让四条描述竞争同一张图，错配训练标签，观察排名怎样改变。</p></a>
 </div></section>
 <section class="chapter" id="training"><h2>监督学习与泛化</h2><p>给样本加上标签，比较梯度、批量、样本难度顺序和新样本表现。</p><div class="shelf">
-<a class="tile" href="supervised/index.html"><h3>换掉一个标签，模型会学到什么？</h3><b>监督学习</b><p>固定样本和训练预算，翻转一个标签，比较分类概率与交叉熵。</p></a>
-<a class="tile" href="gradient/index.html"><h3>梯度算对了，为什么越学越差？</h3><b>反向传播</b><p>沿计算图追踪误差，比较三个学习率带来的训练轨迹。</p></a>
-<a class="tile" href="minibatch/index.html"><h3>四个样本，为什么会把权重往两边拉？</h3><b>小批量梯度</b><p>从上一课的权重起步，改变批量和顺序，比较每次更新与整组损失。</p></a>
-<a class="tile" href="curriculum/index.html"><h3>同一套题，先易后难会学得更好吗？</h3><b>课程学习</b><p>在相同样本数下比较先易、先难和交错三种训练顺序。</p></a>
-<a class="tile" href="generalization/index.html"><h3>训练题全答对，新题也能答对吗？</h3><b>泛化与过拟合</b><p>改变邻居数，核对一张错标签怎样影响训练成绩和留出成绩。</p></a>
+<a class="tile" href="supervised/index.html"><img class="catalog-figure" src="illustrations/supervised.webp" alt="带标签的样本点分布在学习到的决策边界两侧" width="720" height="380" loading="lazy" decoding="async"><h3>换掉一个标签，模型会学到什么？</h3><b>监督学习</b><p>固定样本和训练预算，翻转一个标签，比较分类概率与交叉熵。</p></a>
+<a class="tile" href="gradient/index.html"><img class="catalog-figure" src="illustrations/gradient.webp" alt="不同大小的梯度步在损失曲线上落到不同位置" width="720" height="380" loading="lazy" decoding="async"><h3>梯度算对了，为什么越学越差？</h3><b>反向传播</b><p>沿计算图追踪误差，比较三个学习率带来的训练轨迹。</p></a>
+<a class="tile" href="minibatch/index.html"><img class="catalog-figure" src="illustrations/minibatch.webp" alt="几条样本梯度箭头合成为一个批量梯度" width="720" height="380" loading="lazy" decoding="async"><h3>四个样本，为什么会把权重往两边拉？</h3><b>小批量梯度</b><p>从上一课的权重起步，改变批量和顺序，比较每次更新与整组损失。</p></a>
+<a class="tile" href="curriculum/index.html"><img class="catalog-figure" src="illustrations/curriculum.webp" alt="同一批样本以三种不同难度顺序进入训练" width="720" height="380" loading="lazy" decoding="async"><h3>同一套题，先易后难会学得更好吗？</h3><b>课程学习</b><p>在相同样本数下比较先易、先难和交错三种训练顺序。</p></a>
+<a class="tile" href="generalization/index.html"><img class="catalog-figure" src="illustrations/generalization.webp" alt="训练曲线和验证曲线随模型拟合程度分开" width="720" height="380" loading="lazy" decoding="async"><h3>训练题全答对，新题也能答对吗？</h3><b>泛化与过拟合</b><p>改变邻居数，核对一张错标签怎样影响训练成绩和留出成绩。</p></a>
 </div></section>
-<section class="chapter" id="routing"><h2>稀疏计算与专家路由</h2><p>继 Transformer 的前馈层之后，看稀疏 MoE 如何为每个 token 分配计算，并比较不同路由对专家负载的影响。</p><div class="shelf">
-<a class="tile" href="moe/index.html"><h3>每个 token 都需要经过所有专家吗？</h3><b>稀疏 MoE</b><p>调节路由偏置和 top-k，观察门权重、专家输出与负载。</p></a>
+<section class="chapter" id="evaluation"><h2>分类评估与决策阈值</h2><p>固定同一个模型的分数，检查分类阈值、误报和漏报怎样改变实际代价。</p><div class="shelf">
+<a class="tile" href="threshold/index.html"><img class="catalog-figure" src="illustrations/threshold.webp" alt="两个类别的分数分布被一条竖直阈值线分开" width="720" height="380" loading="lazy" decoding="async"><h3>模型分数多少才放行？</h3><b>分类阈值与代价</b><p>拖动阈值，比较误报、漏报与精确率；再改变阳性基率，检查同一阈值的部署结果。</p></a>
 </div></section>
-<section class="chapter" id="graphs"><h2>图结构与消息传递</h2><p>当关系由图上的边定义时，改变连边或传播层数，观察信息怎样从一个节点传到另一个节点。</p><div class="shelf">
-<a class="tile" href="gnn/index.html"><h3>A 的消息，几层之后能到达 E？</h3><b>图神经网络</b><p>逐层传播信号，加入一条捷径并检验邻居的贡献。</p></a>
+<section class="chapter" id="routing"><h2>稀疏计算与专家路由</h2><p>从选择专家、分配容量到减少注意力连接，分别观察稀疏计算的收益与代价。</p><div class="shelf">
+<a class="tile" href="moe/index.html"><img class="catalog-figure" src="illustrations/moe.webp" alt="一个 token 的路由器只激活少数专家" width="720" height="380" loading="lazy" decoding="async"><h3>每个 token 都需要经过所有专家吗？</h3><b>稀疏 MoE</b><p>调节路由偏置和 top-k，观察门权重、专家输出与负载。</p></a>
+<a class="tile" href="moe-capacity/index.html"><img class="catalog-figure" src="illustrations/moe-capacity.webp" alt="三列专家容量槽，其中一列满载并把额外 token 转给另一列" width="720" height="380" loading="lazy" decoding="async"><h3>专家排满以后，token 去哪儿？</h3><b>专家容量与负载</b><p>把 token 挤向同一个专家，比较容量限制、改派与未处理量。</p></a>
+<a class="tile" href="sparse-attention/index.html"><img class="catalog-figure" src="illustrations/sparse-attention.webp" alt="因果注意力矩阵的窄色带与几列跨窗口的锚点" width="720" height="380" loading="lazy" decoding="async"><h3>少连几条边，远处 token 还能被看到吗？</h3><b>稀疏注意力</b><p>对比全连接、局部窗口和锚点，用多层可达性观察减少配对计算的代价。</p></a>
 </div></section>
-<section class="chapter" id="decisions"><h2>强化学习与序列决策</h2><p>先定义状态、动作和回报，再观察智能体怎样从反馈中学习一连串决策。</p><div class="shelf">
-<a class="tile" href="rl/index.html"><h3>智能体是怎样学会决策的？</h3><b>强化学习</b><p>逐步计算折扣回报，比较探索与利用、回放 Q 值更新，再检验奖励信号会把策略带向哪里。</p></a>
+<section class="chapter" id="graphs"><h2>图结构与消息传递</h2><p>沿边传播消息，再看求和、平均、网络深度怎样改变节点能保留的信号。</p><div class="shelf">
+<a class="tile" href="gnn/index.html"><img class="catalog-figure" src="illustrations/gnn.webp" alt="链式图上的邻居信号逐跳传播，虚线表示捷径" width="720" height="380" loading="lazy" decoding="async"><h3>A 的消息，几层之后能到达 E？</h3><b>图神经网络</b><p>逐层传播信号，加入一条捷径并检验邻居的贡献。</p></a>
+<a class="tile" href="graph-aggregation/index.html"><img class="catalog-figure" src="illustrations/graph-aggregation.webp" alt="两组不同数量的邻居汇到两个中心节点，平均值都等于 2" width="720" height="380" loading="lazy" decoding="async"><h3>邻居变多，聚合后的节点会知道吗？</h3><b>邻居聚合与表达力</b><p>交换、复制邻居特征，比较求和、平均和最大值各会丢掉什么。</p></a>
+<a class="tile" href="graph-depth/index.html"><img class="catalog-figure" src="illustrations/graph-depth.webp" alt="链式图的两组特征经过多层传播后颜色逐渐接近" width="720" height="380" loading="lazy" decoding="async"><h3>消息传得越远，节点就越好区分吗？</h3><b>层数与过平滑</b><p>逐层混合相邻特征，测量两组节点间的差距，再对比保留初始特征。</p></a>
+</div></section>
+<section class="chapter" id="decisions"><h2>强化学习与序列决策</h2><p>从状态和回报开始，比较采样学习、已知模型下的规划与固定日志下的决策。</p><div class="shelf">
+<a class="tile" href="rl/index.html"><img class="catalog-figure" src="illustrations/rl.webp" alt="迷宫里一条路线去往近处奖励，另一条去往远处更高的奖励" width="720" height="380" loading="lazy" decoding="async"><h3>智能体是怎样学会决策的？</h3><b>强化学习</b><p>逐步计算折扣回报，比较探索与利用、回放 Q 值更新，再检验奖励信号会把策略带向哪里。</p></a>
+<a class="tile" href="rl-value/index.html"><img class="catalog-figure" src="illustrations/rl-value.webp" alt="起点分出近路和远路，远路再分到成功与失败终点" width="720" height="380" loading="lazy" decoding="async"><h3>终点回报怎样传回第一步？</h3><b>贝尔曼备份与价值迭代</b><p>修改远路成功概率，逐轮观察价值如何沿已知转移向前传播。</p></a>
+<a class="tile" href="rl-offline/index.html"><img class="catalog-figure" src="illustrations/rl-offline.webp" alt="三种动作的历史样本柱图，第三种动作缺少记录" width="720" height="380" loading="lazy" decoding="async"><h3>历史日志里没走过的动作，能相信它的估值吗？</h3><b>离线强化学习与数据覆盖</b><p>比较无覆盖、采样不足和补充覆盖，观察历史估值怎样影响策略选择。</p></a>
 </div></section>
 <footer class="actions" aria-label="实验目录"><a href="/explore/">返回实验目录</a></footer></main>
 <script>

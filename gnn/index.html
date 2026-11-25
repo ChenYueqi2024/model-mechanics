@@ -6,4 +6,4 @@
 <div class="duo"><section class="panel"><h2>图上的节点状态</h2><svg id="graph" viewBox="0 0 360 155" role="img" aria-label="五个节点的连接关系与当前信号强度" style="width:100%"></svg><p id="depth" class="readout"></p></section>
 <section class="panel"><h2>跟踪一次邻居聚合</h2><label>观察节点 <select id="node"><option>A</option><option>B</option><option>C</option><option>D</option><option selected>E</option></select></label><p id="terms"></p><p id="next"></p></section></div>
 <details><summary>这一层怎样对应图神经网络？</summary><p>这是消息传递 GNN 的均值聚合特例：每条边双向传递上一层的状态，自身也参与平均，线性变换固定为单位权重。每层跨越一条边。连接关系决定信息能走哪条路，增加层数会扩大感受野。</p><a href="https://arxiv.org/abs/1609.02907">阅读图卷积网络论文</a></details>
-<nav class="actions" aria-label="课间导航"><a href="../moe/index.html">返回稀疏 MoE</a><a class="primary" id="next-lesson" href="../rl/index.html">下一专题 · 从强化学习定义开始</a></nav></main></body></html>
+<nav class="actions" aria-label="课间导航"><a href="../sparse-attention/index.html">上一专题 · 稀疏注意力</a><a class="primary" id="next-lesson" href="../graph-aggregation/index.html">比较邻居聚合方法</a></nav></main></body></html>

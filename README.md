@@ -1,6 +1,6 @@
 # Model Mechanics · 机器学习交互实验
 
-从语言 token 开始，沿着 Transformer、图像 patch 和 ViT，再进入训练、路由、图结构和决策。十九个实验可独立打开。[语言入口](https://chenyueqi2024.github.io/model-mechanics/bpe/) · [视觉入口](https://chenyueqi2024.github.io/model-mechanics/patch/)
+26 个浏览器交互实验，从语言和视觉表征走到监督训练、分类评估、稀疏计算、图结构与序列决策。[语言入口](https://chenyueqi2024.github.io/model-mechanics/bpe/) · [视觉入口](https://chenyueqi2024.github.io/model-mechanics/patch/)
 
 ## 语言模型基础
 
@@ -33,21 +33,35 @@
 - [课程学习](https://chenyueqi2024.github.io/model-mechanics/curriculum/) · 在相同样本数下比较先易、先难和交错三种训练顺序。
 - [泛化与过拟合](https://chenyueqi2024.github.io/model-mechanics/generalization/) · 改变邻居数，核对一张错标签怎样影响训练成绩和留出成绩。
 
+## 分类评估与决策阈值
+
+固定同一个模型的分数，检查分类阈值、误报和漏报怎样改变实际代价。
+
+- [分类阈值与代价](https://chenyueqi2024.github.io/model-mechanics/threshold/) · 拖动阈值，比较误报、漏报与精确率；再改变阳性基率，检查同一阈值的部署结果。
+
 ## 稀疏计算与专家路由
 
-继 Transformer 的前馈层之后，看稀疏 MoE 如何为每个 token 分配计算。
+从选择专家、分配容量到减少注意力连接，分别观察稀疏计算的收益与代价。
 
 - [稀疏 MoE](https://chenyueqi2024.github.io/model-mechanics/moe/) · 调节路由偏置和 top-k，观察门权重、专家输出与负载。
+- [专家容量与负载](https://chenyueqi2024.github.io/model-mechanics/moe-capacity/) · 把 token 挤向同一个专家，比较容量限制、改派与未处理量。
+- [稀疏注意力](https://chenyueqi2024.github.io/model-mechanics/sparse-attention/) · 对比全连接、局部窗口和锚点，用多层可达性观察减少配对计算的代价。
+
 ## 图结构与消息传递
 
-当关系由图上的边定义时，观察信息怎样沿边传播。
+沿边传播消息，再看求和、平均、网络深度怎样改变节点能保留的信号。
 
 - [图神经网络](https://chenyueqi2024.github.io/model-mechanics/gnn/) · 逐层传播信号，加入一条捷径并检验邻居的贡献。
+- [邻居聚合与表达力](https://chenyueqi2024.github.io/model-mechanics/graph-aggregation/) · 交换、复制邻居特征，比较求和、平均和最大值各会丢掉什么。
+- [层数与过平滑](https://chenyueqi2024.github.io/model-mechanics/graph-depth/) · 逐层混合相邻特征，测量两组节点间的差距，再对比保留初始特征。
+
 ## 强化学习与序列决策
 
-从状态、动作、奖励和策略的定义出发，理解怎样学习一连串决策。
+从状态和回报开始，比较采样学习、已知模型下的规划与固定日志下的决策。
 
 - [强化学习专题](https://chenyueqi2024.github.io/model-mechanics/rl/) · 手算折扣回报，对照两种多臂老虎机策略，逐步回放 Q-learning，再比较代理奖励和真实目标。
+- [贝尔曼备份与价值迭代](https://chenyueqi2024.github.io/model-mechanics/rl-value/) · 修改远路成功概率，逐轮观察价值如何沿已知转移向前传播。
+- [离线强化学习与数据覆盖](https://chenyueqi2024.github.io/model-mechanics/rl-offline/) · 比较无覆盖、采样不足和补充覆盖，观察历史估值怎样影响策略选择。
 
 ## 跨课实验
 

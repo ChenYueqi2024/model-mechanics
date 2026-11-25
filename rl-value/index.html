@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="修改远路成功概率，逐轮观察价值如何沿已知转移向前传播。">
+  <title>贝尔曼备份与价值迭代 · Model Mechanics</title>
+  <link rel="stylesheet" href="../course.css"><link rel="stylesheet" href="../workbench/lab.css">
+  <script defer src="../common.js"></script><script defer src="../workbench/model.js"></script><script defer src="../workbench/demo.js"></script>
+</head>
+<body data-lab="rl-value"><main>
+  <nav class="top" id="course-nav" aria-label="课程导航"></nav>
+  <h1>终点回报怎样传回第一步？</h1><p class="intro">在已知规则的小任务中，近路立刻得 1.9；远路先扣 0.1，再在桥头以概率 p 得 3.9，否则扣 1.1。用贝尔曼备份逐轮给状态标价。</p>
+  <section class="panel" aria-labelledby="try-title">
+    <h2 id="try-title">先做一个对照</h2><p>把成功概率设为 80%，折扣设为 95%。第 1 轮只更新了桥头的后续价值，第 2 轮起点才读到这笔价值。再把成功概率调低，观察选路改变。</p>
+    <noscript><p class="readout">启用 JavaScript 可操作实验。下方原理与文献可直接阅读。</p></noscript>
+    <div id="experiment" hidden>
+      <div class="lab-settings"><label for="success"><span>过桥成功概率</span><output for="success" data-unit="%"></output><input type="range" id="success" min="0" max="100" step="5" value="80"></label>
+        <label for="discount"><span>折扣 γ</span><output for="discount" data-unit="%"></output><input type="range" id="discount" min="0" max="100" step="5" value="95"></label>
+        <label for="iteration"><span>查看第几轮</span><output for="iteration" data-unit=""></output><input type="range" id="iteration" min="0" max="4" step="1" value="2"></label>
+        <label for="policy"><span>更新方式</span><select id="policy"><option value="optimal">价值迭代 · 选更高值</option><option value="near">评估固定近路</option><option value="far">评估固定远路</option></select></label></div>
+      <div id="visual" class="lab-visual"></div>
+      <p id="result" class="readout" role="status"></p>
+    </div>
+  </section>
+  <section class="lab-explain" id="research"><h2>原理与研究练习</h2><p>初始 V₀ = 0，终点价值固定为 0。每轮同步读上一轮：桥头新价值 = p × 3.9 + (1 − p) × (−1.1)。起点远路价值 = −0.1 + γ × 上一轮桥头价值。价值迭代取两条路的最大值；固定策略则只读所选路线。</p><p>价值迭代用已知转移与奖励算期望；此前的 Q-learning 用一条条采样到的转移更新。比较二者前要明确学习者有哪些环境信息。</p><p><a href="https://mitpress.mit.edu/9780262039246/reinforcement-learning/">Sutton 与 Barto · Dynamic Programming</a></p></section>
+  <nav class="actions" aria-label="课间导航"><a href="../rl/index.html">上一课</a><a href="../index.html">全部课程</a><a class="primary" id="next-lesson" href="../rl-offline/index.html">下一课 · 离线强化学习与数据覆盖</a></nav>
+</main></body>
+</html>
